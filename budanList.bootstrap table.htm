@@ -1,0 +1,432 @@
+<div style="display:none">
+<%@ page import="application.enums.DepositWithdrawChannelEnum" %>
+<%@ page import="org.apache.commons.lang3.time.DateFormatUtils" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="application.util.DateUtils" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+%>
+</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="<%=basePath%>">
+    <c:import url="../common/meta.jsp"/>
+	
+	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+
+<link rel="stylesheet" href="../../static/css/bootstrap.min.css?v=3.3.6">
+<link rel="stylesheet" href="../../static/css/font-awesome.min.css?v=4.4.0">
+<link rel="stylesheet" href="../../static/css/animate.css?v=2017">
+<link rel="stylesheet" href="../../static/css/style.css?v=20170813">
+<link rel="stylesheet" href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css?v=2017">
+<link rel="stylesheet" href="../../static/css/plugins/sweetalert/sweetalert.css?v=2017">
+<link rel="stylesheet" href="../../static/css/plugins/iCheck/custom.css?v=2017">
+<link rel="stylesheet" href="../../static/css/plugins/webuploader/webuploader.css?v=2017">
+<link rel="stylesheet" href="../../static/plugins/bootstrap-fileinput-master/css/fileinput.min.css?v=2019">
+<link rel="stylesheet" href="../../static/plugins/fancyapps-fancyBox-18d1712/source/jquery.fancybox.css?v=2017">
+<link rel="stylesheet" href="../../static/plugins/fancyapps-fancyBox-18d1712/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen"/>
+<link rel="stylesheet" href="../../static/plugins/fancyapps-fancyBox-18d1712/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../static/plugins/bootstrap-multiselect-master/css/bootstrap-multiselect.css?v=2017" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../static/css/plugins/summernote/summernote.css?v=2017" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../static/css/plugins/jsTree/style.min.css?v=2017">
+<link rel="stylesheet" href="../../static/css/plugins/toastr/toastr.min.css?v=2017">
+<link rel="stylesheet" href="../../static/plugins/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css?v=2017">
+<style>
+    /*.fixed-table-toolbar{overflow:hidden;}*/
+    .ibox-title{min-height:initial;height:auto;overflow:hidden;padding:8px 15px;}
+    .ibox-title h5{padding:0;margin:0;}
+    .sidebar-collapse,.nav-header,#wrapper{background:#212831}
+    #side-menu li{border-bottom:1px solid #313c42}
+    /*body{font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;}*/
+      body{font: 12px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif!important;}
+    .nav>li>a{font-weight:normal;padding:7px}
+    .nav-header{padding:15px;}
+    .fa.arrow:before{font-size:18px;}
+
+    .dropdown-menu li a {
+        padding: 0px 15px;
+        margin: 0;
+    }
+    .dropdown-menu{width:auto;min-width:initial;}
+    .nav>li.active{border-left: 4px solid #CE245A;}
+    .nav-second-level li{border-bottom:inherit!important  ;}
+    .ibox-title h5,.ibox-tools a{height:18px;line-height:18px;}
+    .cl-801{position:relative;}
+    .cl-802{position:absolute;top:calc(50% - 65px);left:220px;background:#212831;width:30px;display:none;}
+    .cl-802 a{display:block;width:100%;text-align:center;color:#fff;padding:25px 0;line-height:20px;}
+    .cl-802:hover{background-color: #293846;}
+    .pace-done #page-wrapper, .pace-done .footer, .pace-done .nav-header, .pace-done .navbar-static-side, .pace-done li.active{-webkit-transition:none;transition:none;}
+    body.mini-navbar .navbar-default .nav>li>a{text-align:center;}
+    /*#content-main{height:calc(100% - 78px)}*/
+    .canvas-menu.mini-navbar .nav li:hover>.nav-second-level, .fixed-sidebar.mini-navbar .nav li:hover>.nav-second-level{display:none;}
+    .form-group .layer-date{width:161px;}
+</style>
+
+
+<script src="../../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../../static/js/jquery-ui-1.10.4.min.js?v=1.0.0"></script>
+<script src="../../static/js/plugins/metisMenu/jquery.metisMenu.js?v=2017"></script>
+<script src="../../static/js/plugins/slimscroll/jquery.slimscroll.min.js?v=2017"></script>
+<script src="../../static/js/plugins/layer/layer.min.js?v=2017"></script>
+<script src="../../static/js/plugins/peity/jquery.peity.min.js?v=2017"></script>
+<script src="../../static/js/plugins/iCheck/icheck.min.js?v=2017"></script>
+<script src="../../static/js/hplus.js?v=20170720"></script>
+<script src="../../static/js/contabs.js?v=2017"></script>
+<script src="../../static/js/plugins/pace/pace.min.js?v=2017"></script>
+<script src="../../static/js/demo/peity-demo.js?v=2017"></script>
+<script src="../../static/js/content.js?v=1.0.0"></script>
+<script src="../../static/js/plugins/validate/jquery.validate.min.js?v=2017"></script>
+<script src="../../static/js/plugins/validate/messages_zh.min.js?v=2017"></script>
+<script src="../../static/js/demo/form-validate-demo.js?v=2017"></script>
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js?v=2017"></script>
+<script src="../../static/js/global.js?v=20190426"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js?v=2017"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js?v=2017"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js?v=2017"></script>
+<script src="../../static/js/plugins/iCheck/icheck.min.js?v=2017"></script>
+<script src="../../static/js/plugins/layer/laydate/laydate.js?v=2017"></script>
+<script src="../../static/js/plugins/webuploader/webuploader.js?v=2017"></script>
+<script src="../../static/plugins/bootstrap-fileinput-master/js/fileinput.min.js?v=2017"></script>
+<script src="../../static/plugins/bootstrap-fileinput-master/js/locales/zh.js?v=2017"></script>
+<script src="../../static/plugins/fancyapps-fancyBox-18d1712/source/jquery.fancybox.pack.js?v=2017"></script>
+<script src="../../static/plugins/fancyapps-fancyBox-18d1712/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script src="../../static/plugins/fancyapps-fancyBox-18d1712/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<script src="../../static/plugins/fancyapps-fancyBox-18d1712/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script src="../../static/plugins/bootstrap-multiselect-master/js/bootstrap-multiselect.js?v=2017"></script>
+<script src="../../static/js/plugins/summernote/summernote.min.js?v=2017"></script>
+<script src="../../static/js/plugins/summernote/summernote-zh-CN.js?v=2017"></script>
+<script src="../../static/js/jquery.md5.js?v=2017"></script>
+<script src="../../static/js/template.js?v=2017"></script>
+<script src="../../static/js/dateFormat.js?v=2017"></script>
+<script src="../../static/js/plugins/jsTree/jstree.min.js?v=2017"></script>
+<script src="../../static/js/plugins/jsTree/jstree.checkbox.js?v=2017"></script>
+<script src="../../static/ueditor/ueditor.config.js?v=2017043001"></script>
+<script src="../../static/ueditor/ueditor.all.js?v=20170430"></script>
+<script src="../../static/js/plugins/bootstrap-table/extensions/export/bootstrap-table-export.min.js?v=2017"></script>
+<script src="../../static/js/tableExport.js?v=2017"></script>
+<script src="../../static/js/plugins/toastr/toastr.min.js?v=2017"></script>
+<script src="../../static/js/swfobject/swfobject.js?v=2017"></script>
+<script src="../../static/plugins/bootstrap-switch-master/dist/js/bootstrap-switch.min.js?v=2017"></script>
+<script src="../../static/js/commonTable.js?v=2017060102"></script>
+    <title>补单记录</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>补单记录</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a> <a
+                            class="close-link"> <i class="fa fa-times"></i> </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <form class="form-inline" onsubmit="search();return false;">
+                           
+                            
+                        </form>
+                    </div>
+                    <div id="toolbar">
+                        <form class="form-inline" onsubmit="search();return false;">
+                            
+                            <div class="form-group" style="display: none;">
+                                <button type="submit" class="btn btn-sm btn-primary">查询</button>
+                                <button type="reset" class="btn btn-sm btn-primary" onclick="resetSearch()">重置</button>
+                                <a  href="javascript:void(0);" target="_blank" id="exportExcel" class='btn btn-info'>导出</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+<table class="table table-striped" id="dataTable"
+
+ data-sort-name="operationTime"
+11     data-sort-order="desc" 
+
+>
+						
+						 <thead>
+    <tr>
+        <th colspan="2" data-valign="middle" data-halign="center">用户基本信息</th>
+        <th colspan="4" data-valign="middle" data-halign="center">补单信息</th>
+        <th colspan="3"  data-valign="middle" data-halign="center" data00-formatter00="operateFormatter">其他信息</th>
+         <th colspan="1"  data-valign="middle" data-halign="center" data00-formatter00="operateFormatter">操作</th>
+    </tr>
+    </tr>
+    <tr>
+        <th data-field="userId" data-align="center" data-formatter="setCode">用户编号</th>
+        <th data-field="account" data-align="center">姓名</th>
+    
+  <!-- 补单信息 -->
+    <th data-field="operationTime" data-align="center"  data-formatter="dateFormat99" data-sortable="true">时间</th>
+        <th data-field="changeMoney" data-align="center" data-sortable="true">金额</th>
+  <th data-field="operationType" data-align="center"  data-formatter="operateFormatter">上分<br>下分</th>
+           <th data-field="gameType" data-align="center">游戏类型<br>开元fgVG</th>
+      
+
+
+
+       <!-- 其他信息 -->
+     <th   dd="pk" data-align="center" data-formatter="pkinfoFmt">pk<br>orderNumber</th>
+     <!-- 
+        <th data="orderNumber" data-align="center">orderNumber</th>
+       -->
+        <th data-field="errorCount" data-align="center">自动补单<br>次数</th>
+        <th data-field="operationType" data-align="center">operation<br>Type</th>
+
+
+
+         <th data-field="" data-align="center"  data-formatter="opColFmt" >操作</th>
+    </tr>
+    </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+  basepathx="<%=basePath%>";
+   if(basepathx.search("=basePath"))
+  basepathx="http://localhost:8080/";
+
+function pkinfoFmt(value, row, index){
+  return   row.pk+'<br>'+row.orderNumber;
+
+}
+ function opColFmt(value, row, index)
+ 
+{
+      return "<a href='javascript:;' onclick='dltRec(\""+row.pk+"\")'>删除</a>"
+}
+
+function dltRec(pk){
+    if(confirm("确定删除此单：pk:"+pk))
+    {
+
+            //alert( window.location.host)  in file mode test ,is empty
+ delurl=basepathx+"budan/ajaxBudanDlt.json?pk="+pk;
+ 
+             $.get(delurl, function(result){
+                   alert(result);
+                  //  $('#dataTable').empty();
+                     $("#dataTable").bootstrapTable('refresh', {});
+                  
+
+              });
+    }
+   // alert(pk)
+}
+
+   
+   
+    function dateFormat99(value, row, index)
+{
+     return changeDateFormat(value)
+}
+
+
+
+function operateFormatter(value, row, index)
+{
+    if(value==0) return "》》上分";if(value==1) return "下分"; 
+}
+
+  //转换日期格式(时间戳转换为datetime格式)
+    function changeDateFormat(cellval) {
+        var dateVal = cellval + "";
+        if (cellval != null) {
+            var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            
+            var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+            var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+            var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+            
+            return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
+        }
+    }
+
+
+
+</script>
+
+<c:import url="../common/js.jsp"/>
+<script type="text/javascript">
+
+
+    
+
+
+    function GetQueryString(parameter) {
+        var reg = new RegExp("(^|&)" + parameter + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return decodeURI(r[2]);
+        }
+    }
+
+    var channelArr = [];
+	
+	try{
+   // <c:forEach items="<%=DepositWithdrawChannelEnum.values()%>" var="item">
+ //   channelArr[${item.id}] = "${item.name}";
+  //  </c:forEach>
+	}catch(e){}
+    var column = [
+
+   
+        
+    ];
+
+    /*  if this first col   not user info ..zosh jeig ..
+
+ {
+            field: 'operationTime',
+            title: '操作时间',
+            sortable:true //设置ID列可以排序
+        }
+
+
+    */
+	
+	
+	
+//alert( window.location.host)  in file mode test ,is empty
+  tableurl="<%=basePath%>budan/ajaxBudanList.json";
+  if(tableurl.search("=basePath"))
+  tableurl="http://localhost:8080/budan/ajaxBudanList.json";
+	
+	// ati ini load table 
+    $(document).ready(function () {
+        // $("select[name='type[]']").multiselect({
+        //     buttonWidth: '150px',
+        //     maxHeight: 500,
+        //     nSelectedText: "个",
+        //     allSelectedText: "共选择了",
+        //     nonSelectedText: "==请选择==",
+        //     selectAllText: "全选",
+        //     includeSelectAllOption: true,
+        //     selectedList: 2,
+        //     minWidth: 200
+        // });
+
+       
+
+        ajaxGetData(column);
+        $(window).resize(function () {
+            $('#dataTable').bootstrapTable('resetView');
+        });
+
+        $('.dropdown-menu').css('width', '150px');
+    });
+	
+
+    // trans ret data fmt
+function responseHandlerRetDataFmt(res){
+    return {"rows":res,"total":999};
+
+
+     
+}
+	
+	//../..//budan/ajaxBudanList.json
+	// ini load 
+	///     height: $(window).height() - $(".ibox").height() + $(".ibox-content").height() - $("#toolbar").height(),
+	
+
+    function ajaxGetData() {
+        $('#dataTable').bootstrapTable({
+		
+          
+            method: 'post',
+            url: tableurl,
+			responseHandler:responseHandlerRetDataFmt,
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "json",
+            striped: true,     //使表格带有条纹
+            pagination: true, //在表格底部显示分页工具栏
+            pageSize: 25,
+            pageNumber: 1,
+            sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+            idField: "id",  //标识哪个字段为id主键
+            showToggle: false,   //名片格式
+            cardView: false,//设置为True时显示名片（card）布局
+            showColumns: true, //显示隐藏列
+            showRefresh: true,  //显示刷新按钮
+            singleSelect: true,//复选框只能选择一条记录
+            search: false,//是否显示右上角的搜索框
+            clickToSelect: true,//点击行即可选中单选/复选框
+            sidePagination: "server",//表格分页的位置
+            queryParams: queryParams, //参数
+            queryParamsType: "", //参数格式,发送标准的RESTFul类型的参数请求
+            toolbar: "#toolbar", //设置工具栏的Id或者class
+            columns: column, //列
+            silent: true,  //刷新事件必须设置,
+            toolbar: '#toolbar',
+            showExport: false,
+            sortable:true,
+              sortName: 'operationTime',
+            sortOrder: 'desc',
+            formatLoadingMessage: function () {
+                return "请稍等，正在加载中...";
+            },
+            formatNoMatches: function () {  //没有匹配的结果
+                return '无符合条件的记录';
+            },
+            onLoadError: function (data) {
+                $('#reportTable').bootstrapTable('removeAll');
+            },
+            onClickRow: function (row) {
+            },
+        });
+    }
+    function queryParams(params) {  //配置参数
+        var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+            pageSize: params.pageSize,   //页面大小
+            pageIndex: params.pageNumber,  //页码
+            sortName: params.sortName,
+            sortOrder: params.sortOrder,
+            searchText: params.searchText,
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            account: $("#account").val(),
+            adminUserAccount:$('#adminUserAccount').val(),
+            status: $("#status").val(),
+            layerId: $("#layerId").val(),
+            ckBankAccount: $("#ckBankAccount").val()
+        };
+        var params = Object.entries($.extend({}, temp, {exports: true})).reduce((arr, [k, v]) => arr.concat(encodeURIComponent(k) + '=' + encodeURIComponent(v || '')), []).join('&');
+        $('#exportExcel').attr({href:'<%=basePath%>fundManagement/ajaxHandledDeposit.json?' + params, target: '_blank'});
+        return temp;
+    }
+
+    function search() {
+        if(timeEx()) {
+            $('#dataTable').bootstrapTable('removeAll');
+            $('.no-records-found').children().text('查询区间不可超出60日,请重新输入!');
+            return false;
+        }
+        $('#dataTable').bootstrapTable('refreshOptions',{pageNumber:1});
+        $('#dataTable').bootstrapTable('refresh', {silent: false})
+    }
+
+    function resetSearch() {
+        location.reload();
+    }
+</script>
+</body>
+</html>

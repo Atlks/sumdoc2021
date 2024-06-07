@@ -1,0 +1,1142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<title>
+		Java连接MongoDB操作 -
+		MongoDB教程&trade;</title>
+	<meta name="keywords" content="">
+	<meta name="description" content="在本章中，我们将学习如何设置和使用MongoDB JDBC驱动程序。
+安装 MongoDB JDBC驱动程序要在Java程序中使用MongoDB之前，需要确保在机器上设置了MongoDB JDBC驱">
+	<link rel="stylesheet" href="/static/css/fonts/font-awesome.min.css" media="all" />
+	<link rel="stylesheet" href="/static/layui/css/layui.css?v=v5.812">
+	<link rel="stylesheet" href="/static/css/all.css?v=v5.812" media="all">
+	<link rel="stylesheet" href="/static/css/prism.css?v=v5.812" media="all">
+	
+	<!--[if lt IE 9]>
+		<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+		<![endif]-->
+</head>
+<body class="page-home">
+	
+<header class="header">
+	<div class="container">
+		<h1 class="logo">
+			<a href="https://www.yiibai.com" title="易百教程"><i
+				class="fa"></i>易百教程</a>
+				<a id="backTop" name="backTop" style="display:none;"></a>
+		</h1>
+		<div class="site-navbar">
+			<ul>
+				<li class="has-sub-menu"><a href="#">所有教程</a>
+					<div class="sub-menu">
+						<ul>
+							<li><a href="https://www.yiibai.com/html/java/">Java技术</a></li>
+							<li><a href="https://www.yiibai.com/web/">Web技术</a></li>
+							<li><a href="https://www.yiibai.com/html/script/">脚本语言</a></li>
+							<li><a href="https://www.yiibai.com/html/database/">数据库</a></li>
+							<li><a href="https://www.yiibai.com/hightlang/">高级语言</a></li>
+							<li><a href="https://www.yiibai.com/html/misc/">其它技术</a></li>
+							<li><a href="https://www.yiibai.com/?app=all" style="font-weight:bold;color: #61B3E6;">查看所有教程</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="has-sub-menu"><a href="javascript:void(0);">Java技术</a>
+					<div class="sub-menu">
+						<ul>
+								<li>
+									<a href="https://www.yiibai.com/java/" target="_blank">Java教程</a>
+								</li>
+								
+								<li>
+									<a href="https://www.yiibai.com/design_pattern/" target="_blank">Java设计模式</a>
+								</li>
+								<li>
+									<a href="https://www.yiibai.com/jsp/" target="_blank">JSP教程</a>
+								</li>
+
+								<li>
+									<a href="https://www.yiibai.com/jdbc/" target="_blank">JDBC教程</a>
+								</li>																																				
+							
+								<li>
+									<a href="https://www.yiibai.com/struts_2/" target="_blank">Struts2教程</a>
+								</li>
+							
+								<li>
+									<a href="https://www.yiibai.com/maven/" target="_blank">Maven教程</a>
+								</li>
+							
+							
+								<li>
+									<a href="https://www.yiibai.com/javaexamples/" target="_blank">java实例教程</a>
+								</li>
+
+								<li>
+									<a href="https://www.yiibai.com/mybatis/" target="_blank">MyBatis教程</a>
+								</li>
+
+								
+								<li>
+									<a href="https://www.yiibai.com/spring/" target="_blank">Spring教程</a>
+								</li>
+								<li>
+									<a href="https://www.yiibai.com/spring_mvc/" target="_blank">Spring MVC教程</a>
+								</li>
+							
+								
+						</ul>
+					</div></li>
+				<li class="has-sub-menu"><a href="javascript:;">数据库</a>
+					<div class="sub-menu">
+						<ul>
+							
+								<li>
+									<a href="https://www.yiibai.com/mysql/" target="_blank" title="MySQL教程">MySQL教程</a>
+								</li>
+								<li>
+									<a href="https://www.yiibai.com/postgresql/" target="_blank" title="PostgreSQL教程">PostgreSQL教程</a>
+								</li>
+							
+						</ul>
+					</div></li>
+					<li class="active"><a href="https://www.yiibai.com/geek/">极客文章</a></li>
+					<li class="active"><a href="https://www.yiibai.com/code/">示例代码</a></li>
+			</ul>
+		</div>
+		<div style="padding-top:4px;padding-bottom:4px;width:220px;float:left;margin-left:64px;line-height:22px;" id="search-form">
+		    <form action="/search" method="get">
+				<input type="text" id="kw" name="kw" style="border-radius:0px;float:left;width:134px;padding-left:6px; height: 28px;" value=""/>
+				<input type="submit" id="head-sumbit" style="float:left;font-size:14px;width:48px; height: 28px;" value="搜索"/>
+			</form>
+		</div>
+
+		<div id="login-state" style="float:left;margin-top: 4px;">
+			
+		</div>
+		<div class="m-navbar-start">
+			<i class="fa">&#xe624;</i>
+		</div>
+		<div class="m-wel-start">
+			<i class="fa">&#xe632;</i>
+		</div>
+		<div class="m-mask"></div>
+	</div>
+</header>
+<nav id="header-nav" style="float:left;width:100%;display:none;"></nav>
+
+	<section class="container container-page clearfix" style="margin-top: 24px;">
+		<div class="pageside">
+			<div class="pagemenus">
+				<ul class="pagemenu">
+					<li class="navto-ads active">
+							
+							<a href="/mongodb" style="float:left;line-height:32px;font-weight:bold;padding-bottom: 32px;padding-top: 12px;width: 100%;">
+
+							<i class="fa fa-list"></i>&nbsp;&nbsp;
+							MongoDB教程
+							</a>						
+					</li>
+					<!--// 默认左侧文章 -->
+															<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_quick_guide.html" title="MongoDB快速入门" style="">
+							MongoDB快速入门</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb-history.html" title="MongoDB历史" style="">
+							MongoDB历史</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb-features.html" title="MongoDB特点" style="">
+							MongoDB特点</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb-advantages-over-rdbms.html" title="MongoDB数据库的优点" style="">
+							MongoDB数据库的优点</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_environment.html" title="MongoDB安装配置(Windows)" style="">
+							MongoDB安装配置(Windows)</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/install-mongodb-on-ubuntu.html" title="MongoDB安装配置(Ubuntu)" style="">
+							MongoDB安装配置(Ubuntu)</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/install-mongodb-on-redhat.html" title="MongoDB安装配置(RedHat/CentOS)" style="">
+							MongoDB安装配置(RedHat/CentOS)</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_data_modeling.html" title="MongoDB数据建模" style="">
+							MongoDB数据建模</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_create_database.html" title="MongoDB创建数据库" style="">
+							MongoDB创建数据库</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_drop_database.html" title="MongoDB删除数据库" style="">
+							MongoDB删除数据库</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_create_collection.html" title="MongoDB创建集合" style="">
+							MongoDB创建集合</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_drop_collection.html" title="MongoDB删除集合" style="">
+							MongoDB删除集合</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_datatype.html" title="MongoDB数据类型" style="">
+							MongoDB数据类型</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_insert_document.html" title="MongoDB插入文档" style="">
+							MongoDB插入文档</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_query_document.html" title="MongoDB查询文档" style="">
+							MongoDB查询文档</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_update_document.html" title="MongoDB更新文档" style="">
+							MongoDB更新文档</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_delete_document.html" title="MongoDB删除文档" style="">
+							MongoDB删除文档</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_projection.html" title="MongoDB投影（选择字段）" style="">
+							MongoDB投影（选择字段）</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_limit_record.html" title="MongoDB限制记录数" style="">
+							MongoDB限制记录数</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_sort_record.html" title="MongoDB排序记录" style="">
+							MongoDB排序记录</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_indexing.html" title="MongoDB索引" style="">
+							MongoDB索引</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_aggregation.html" title="MongoDB聚合" style="">
+							MongoDB聚合</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_replication.html" title="MongoDB复制" style="">
+							MongoDB复制</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_sharding.html" title="MongoDB分片" style="">
+							MongoDB分片</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_create_backup.html" title="MongoDB备份与恢复" style="">
+							MongoDB备份与恢复</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_deployment.html" title="MongoDB部署" style="">
+							MongoDB部署</a>
+					</li>
+																				<li style="border-left: 6px solid #2e82ff;font-weight: bold;">
+						<a href="#" title="当前阅读的文章" style="cursor:text;background-color: #f5f2f0;">
+							Java连接MongoDB操作</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_python.html" title="Python连接MongoDB操作" style="">
+							Python连接MongoDB操作</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_php.html" title="PHP连接MongoDB操作" style="">
+							PHP连接MongoDB操作</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_ruby.html" title="Ruby连接MongoDB操作" style="">
+							Ruby连接MongoDB操作</a>
+					</li>
+										
+
+					<!--// 有标签的文章 -->
+										<li style="font-size:16px;font-weight:bold;color:#666;"><a style="background-color: #f8f9f9;cursor:text;font-size:16px;color: #666;">高级部分</a></li>
+															<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_relationships.html" title="MongoDB关联关系" style="">
+							MongoDB关联关系</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_database_references.html" title="MongoDB数据库引用" style="">
+							MongoDB数据库引用</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_covered_queries.html" title="MongoDB覆盖查询" style="">
+							MongoDB覆盖查询</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_analyzing_queries.html" title="MongoDB分析查询" style="">
+							MongoDB分析查询</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_atomic_operations.html" title="MongoDB原子操作" style="">
+							MongoDB原子操作</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_advanced_indexing.html" title="MongoDB高级索引" style="">
+							MongoDB高级索引</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_indexing_limitations.html" title="MongoDB索引限制" style="">
+							MongoDB索引限制</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_objectid.html" title="MongoDB ObjectId" style="">
+							MongoDB ObjectId</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_map_reduce.html" title="MongoDB Map Reduce" style="">
+							MongoDB Map Reduce</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_text_search.html" title="MongoDB文本搜索" style="">
+							MongoDB文本搜索</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_regular_expression.html" title="MongoDB正则表达式" style="">
+							MongoDB正则表达式</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_gridfs.html" title="MongoDB GridFS" style="">
+							MongoDB GridFS</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_capped_collections.html" title="MongoDB固定循环集合" style="">
+							MongoDB固定循环集合</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/mongodb_autoincrement_sequence.html" title="MongoDB自动递增序列" style="">
+							MongoDB自动递增序列</a>
+					</li>
+										
+										<li style="font-size:16px;font-weight:bold;color:#666;"><a style="background-color: #f8f9f9;cursor:text;font-size:16px;color: #666;">用户及安全</a></li>
+															<li style="">
+						<a href="https://www.yiibai.com/mongodb/security-checklist.html" title="MongoDB安全检查表" style="">
+							MongoDB安全检查表</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/authentication.html" title="MongoDB认证" style="">
+							MongoDB认证</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/security-users.html" title="MongoDB用户" style="">
+							MongoDB用户</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/create-users.html" title="MongoDB添加用户" style="">
+							MongoDB添加用户</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/enable-authentication.html" title="MongoDB启用身份验证" style="">
+							MongoDB启用身份验证</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/manage-users-and-roles.html" title="MongoDB管理用户和角色" style="">
+							MongoDB管理用户和角色</a>
+					</li>
+																				<li style="">
+						<a href="https://www.yiibai.com/mongodb/change-own-password-and-custom-data.html" title="MongoDB更改用户密码和自定义数据" style="">
+							MongoDB更改用户密码和自定义数据</a>
+					</li>
+										
+					
+				</ul>
+
+			</div>
+		</div>
+
+		<div class="content" id="navs">
+
+			<header class="article-header">
+				<h1 class="article-title" style="text-align:center;">
+					Java连接MongoDB操作
+				</h1>
+				<div class="article-meta" style="margin-top:20px;font-size:14px;">
+
+					<span class="item" style="margin-left:20px;">作者：
+						初生不惑</span>
+					<span style="font-weight:bold;margin-left:24px;" id="qq-group">Java技术QQ群：227270512 / Linux QQ群：479429477</span>
+				</div>
+			</header>
+			<!--// article body -->
+			<article>
+				<a name="article-start" id="article-start"></a>
+
+				<div style="padding-top: 6px;padding-bottom: 4px;float:left;width:100%;">
+					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<!-- 顶部_720x90 -->
+					<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-1090193214637198" data-ad-slot="9805510053"></ins>
+					<script>
+						( adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+				</div>
+
+				<div style="float:left;width:100%;heigh:30px;padding-bottom:10px;padding-top:3px;display:none;" id="adv_730x80"></div>
+
+				<div style="width:100%;float:left;" class="article-content">
+
+					<input type="hidden" name="article_id" id="article_id" value="10887" />
+					<input type="hidden" name="catid" id="catid" value="0" />
+
+					<p>在本章中，我们将学习如何设置和使用MongoDB JDBC驱动程序。</p>
+<h2 id="h2--mongodb-jdbc-"><a name="安装 MongoDB JDBC驱动程序" class="reference-link"></a><span class="header-link octicon octicon-link"></span>安装 MongoDB JDBC驱动程序</h2><p>要在Java程序中使用MongoDB之前，需要确保在机器上设置了MongoDB JDBC驱动程序和Java。 可以在机器上检查Java环境可通过：<a href="http://www.yiibai.com/java/" title="Java教程">Java教程</a>。 现在，我们来看一下如何设置MongoDB JDBC驱动。</p>
+<ul>
+<li>下载 mongo.jar(<a href="http://mongodb.github.io/mongo-java-driver/)，确保下载最新版本。">http://mongodb.github.io/mongo-java-driver/)，确保下载最新版本。</a></li><li>将 mongo.jar 包含到类路径中。</li></ul>
+<h2 id="h2-u8FDEu63A5u5230u6570u636Eu5E93"><a name="连接到数据库" class="reference-link"></a><span class="header-link octicon octicon-link"></span>连接到数据库</h2><p>要连接数据库，需要指定数据库名称，如果数据库不存在，那么MongoDB会自动创建它。<br>使用 Eclipse 创建一个 Maven 工程 - <em>MongoDBJDBC</em> ，其目录结果如下所示 - </p>
+<p><img src="http://www.yiibai.com/uploads/images/201707/0207/948100749_44422.png" alt=""></p>
+<p>有关 <code>pom.xml</code> 文件的内容如下 - </p>
+<pre><code class="lang-xml">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.yiibai&lt;/groupId&gt;
+    &lt;artifactId&gt;MongoDBJDBC&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;name&gt;MongoDBJDBC&lt;/name&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mongodb&lt;/groupId&gt;
+            &lt;artifactId&gt;mongodb-driver&lt;/artifactId&gt;
+            &lt;version&gt;3.4.2&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+    &lt;build&gt;
+        &lt;defaultGoal&gt;compile&lt;/defaultGoal&gt;
+    &lt;/build&gt;
+&lt;/project&gt;
+</code></pre>
+<p>以下是连接到数据库的代码片段 -</p>
+<pre><code class="lang-shell">package com.yiibai.MongoDBJDBC;
+
+/**
+ * Hello world!
+ *
+ */
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoDatabase;
+
+public class App {
+
+    public static void main(String args[]) {
+
+        try {
+
+            // To connect to mongodb server
+            MongoClient mongoClient = new MongoClient(&quot;localhost&quot;, 27017);
+
+            // Now connect to your databases
+            MongoDatabase mgdb = mongoClient.getDatabase(&quot;mycol&quot;);
+
+            System.out.println(&quot;Connect to database successfully!&quot;);
+            System.out.println(&quot;MongoDatabase inof is : &quot;+mgdb.getName());
+            // If MongoDB in secure mode, authentication is required.
+            // boolean auth = db.authenticate(myUserName, myPassword);
+            // System.out.println(&quot;Authentication: &quot;+auth);
+
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + &quot;: &quot; + e.getMessage());
+        }
+    }
+}
+</code></pre>
+<p><strong>默认认证机制</strong></p>
+<pre><code class="lang-java">String user; // the user name
+String database; // the name of the database in which the user is defined
+char[] password; // the password as a character array
+// ...
+MongoCredential credential = MongoCredential.createCredential(user, database, password);
+MongoClient mongoClient = new MongoClient(new ServerAddress(&quot;host1&quot;, 27017),
+                                         Arrays.asList(credential));
+</code></pre>
+<p>或者使用连接字符串而不明确指定认证机制：</p>
+<pre><code class="lang-java">MongoClientURI uri = new MongoClientURI(&quot;mongodb://user1:pwd1@host1/?authSource=db1&quot;);
+MongoClient mongoClient = new MongoClient(uri);
+</code></pre>
+<p>执行上面代码，得到以下结果 - </p>
+<pre><code class="lang-shell">com.mongodb.diagnostics.logging.JULLogger log
+信息: Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout=&#39;30000 ms&#39;, maxWaitQueueSize=500}
+Connect to database successfully!
+MongoDatabase inof is : mycol
+</code></pre>
+<h2 id="h2-u521Bu5EFAu548Cu5217u51FAu96C6u5408"><a name="创建和列出集合" class="reference-link"></a><span class="header-link octicon octicon-link"></span>创建和列出集合</h2><p>要创建集合，可使用 <code>com.mongodb.DB</code> 类的 <code>createCollection()</code>方法。</p>
+<p>以下是创建集合的代码片段 -</p>
+<pre><code class="lang-java">package com.yiibai.MongoDBJDBC;
+
+import org.bson.Document;
+import com.mongodb.DBCollection;
+import com.mongodb.client.model.CreateCollectionOptions;
+/**
+ * Hello world!
+ *
+ */
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+public class CreateCollection {
+
+    public static void main(String args[]) {
+
+        try {
+
+            // To connect to mongodb server
+            MongoClient mongoClient = new MongoClient(&quot;localhost&quot;, 27017);
+
+            // Now connect to your databases
+            MongoDatabase database = mongoClient.getDatabase(&quot;test&quot;);
+
+            //database.createCollection(&quot;NewCollection&quot;,new CreateCollectionOptions().capped(true).sizeInBytes(0x100000));
+
+            MongoCollection&lt;Document&gt; coll = database.getCollection(&quot;myTestCollection&quot;);
+
+            System.out.println(&quot;Collection created successfully&quot;);
+
+            System.out.println(&quot;当前数据库中的所有集合是：&quot;);
+
+            for (String name : database.listCollectionNames()) {
+                System.out.println(name);
+            }
+
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + &quot;: &quot; + e.getMessage());
+        }
+    }
+}
+</code></pre>
+<p>执行上面代码，得到以下结果 - </p>
+<pre><code class="lang-shell">Collection created successfully
+当前数据库中的所有集合是：
+mycol
+inventory
+post
+mycollection
+newcollection
+</code></pre>
+<h2 id="h2-u63D2u5165u6587u6863"><a name="插入文档" class="reference-link"></a><span class="header-link octicon octicon-link"></span>插入文档</h2><p>要将文档插入到MongoDB中，使用<code>com.mongodb.DBCollection</code>类的<code>insertOne()</code>方法。</p>
+<p>以下是插入文档的代码片段 -</p>
+<pre><code class="lang-shell">package com.yiibai.MongoDBJDBC;
+
+import java.util.Arrays;
+
+import org.bson.Document;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+/**
+ * Hello world!
+ *
+ */
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.CreateCollectionOptions;
+
+public class InsertDocument {
+
+    public static void main(String args[]) {
+
+        try {
+
+            // To connect to mongodb server
+            MongoClient mongoClient = new MongoClient(&quot;localhost&quot;, 27017);
+
+            // Now connect to your databases
+            MongoDatabase database = mongoClient.getDatabase(&quot;test&quot;);
+
+            // database.createCollection(&quot;NewCollection&quot;, new
+            // CreateCollectionOptions().capped(true).sizeInBytes(0x100000));
+
+            System.out.println(&quot;Collection created successfully&quot;);
+
+            System.out.println(&quot;当前数据库中的所有集合是：&quot;);
+
+            for (String name : database.listCollectionNames()) {
+                System.out.println(name);
+            }
+
+            MongoCollection coll = database.getCollection(&quot;mycol&quot;);
+            System.out.println(&quot;Collection mycol selected successfully&quot;);
+            MongoCollection&lt;Document&gt; collection = database.getCollection(&quot;mycol&quot;);
+
+            Document document = new Document(&quot;_id&quot;, 1999).append(&quot;title&quot;, &quot;MongoDB Insert Demo&quot;)
+                    .append(&quot;description&quot;,&quot;database&quot;)
+                    .append(&quot;likes&quot;, 30)
+                    .append(&quot;by&quot;, &quot;yiibai point&quot;)
+                    .append(&quot;url&quot;, &quot;http://www.yiibai.com/mongodb/&quot;);
+
+            collection.insertOne(document);
+
+            collection.find().forEach(printBlock);
+
+            System.out.println(&quot;Document inserted successfully&quot;);
+
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + &quot;: &quot; + e.getMessage());
+        }
+    }
+
+    static Block&lt;Document&gt; printBlock = new Block&lt;Document&gt;() {
+        public void apply(final Document document) {
+            System.out.println(document.toJson());
+        }
+    };
+}
+</code></pre>
+<p>执行上面代码，得到以下结果 - </p>
+<pre><code class="lang-shell">NewCollection
+mycol
+inventory
+post
+Collection
+mycollection
+newcollection
+Collection mycol selected successfully
+{ &quot;_id&quot; : 123.0, &quot;title&quot; : &quot;MongoDB Overview&quot;, &quot;description&quot; : &quot;MongoDB is no sql database&quot;, &quot;by&quot; : &quot;yiibai tutorials&quot;, &quot;url&quot; : &quot;http://www.yiibai.com&quot;, &quot;tags&quot; : [&quot;mongodb&quot;, &quot;database&quot;, &quot;NoSQL&quot;], &quot;likes&quot; : 100.0 }
+{ &quot;_id&quot; : 100.0, &quot;title&quot; : &quot;MongoDB Overview&quot;, &quot;description&quot; : &quot;MongoDB is no sql database&quot;, &quot;by&quot; : &quot;yiibai tutorials&quot;, &quot;url&quot; : &quot;http://www.yiibai.com&quot;, &quot;tags&quot; : [&quot;mongodb&quot;, &quot;database&quot;, &quot;NoSQL&quot;], &quot;likes&quot; : 100.0 }
+{ &quot;_id&quot; : 1999, &quot;title&quot; : &quot;MongoDB Insert Demo&quot;, &quot;description&quot; : &quot;database&quot;, &quot;likes&quot; : 30, &quot;by&quot; : &quot;yiibai point&quot;, &quot;url&quot; : &quot;http://www.yiibai.com/mongodb/&quot; }
+Document inserted successfully
+</code></pre>
+<p><strong>如何插入多行？</strong></p>
+<pre><code class="lang-java">Document doc1 = new Document(&quot;name&quot;, &quot;Amarcord Pizzeria&quot;)
+               .append(&quot;contact&quot;, new Document(&quot;phone&quot;, &quot;264-555-0193&quot;)
+                                       .append(&quot;email&quot;, &quot;amarcord.pizzeria@example.net&quot;)
+                                       .append(&quot;location&quot;,Arrays.asList(-73.88502, 40.749556)))
+               .append(&quot;stars&quot;, 2)
+               .append(&quot;categories&quot;, Arrays.asList(&quot;Pizzeria&quot;, &quot;Italian&quot;, &quot;Pasta&quot;));
+
+
+Document doc2 = new Document(&quot;name&quot;, &quot;Blue Coffee Bar&quot;)
+               .append(&quot;contact&quot;, new Document(&quot;phone&quot;, &quot;604-555-0102&quot;)
+                                       .append(&quot;email&quot;, &quot;bluecoffeebar@example.com&quot;)
+                                       .append(&quot;location&quot;,Arrays.asList(-73.97902, 40.8479556)))
+               .append(&quot;stars&quot;, 5)
+               .append(&quot;categories&quot;, Arrays.asList(&quot;Coffee&quot;, &quot;Pastries&quot;));
+
+List&lt;Document&gt; documents = new ArrayList&lt;Document&gt;();
+documents.add(doc1);
+documents.add(doc2);
+
+collection.insertMany(documents);
+</code></pre>
+<h2 id="h2-u66F4u65B0u6587u6863"><a name="更新文档" class="reference-link"></a><span class="header-link octicon octicon-link"></span>更新文档</h2><p>要从集合更新文档，使用<code>com.mongodb.DBCollection</code>类的<code>update()</code>和<code>updateMany()</code>方法。以下是选择第一个文档的代码片段 -</p>
+<pre><code class="lang-java">package com.yiibai.MongoDBJDBC;
+
+import org.bson.Document;
+
+import com.mongodb.Block;
+/**
+ * Hello world!
+ *
+ */
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.ServerAddress;
+
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoCollection;
+
+import org.bson.Document;
+
+import com.mongodb.client.MongoCursor;
+import static com.mongodb.client.model.Filters.*;
+import com.mongodb.client.result.DeleteResult;
+import static com.mongodb.client.model.Updates.*;
+import com.mongodb.client.result.UpdateResult;
+import java.util.ArrayList;
+import java.util.List;
+
+public class App {
+
+    public static void main(String args[]) {
+
+        try {
+
+            // To connect to mongodb server
+            MongoClient mongoClient = new MongoClient(&quot;127.0.0.1&quot;, 27017);
+
+            // Now connect to your databases
+            MongoDatabase database = mongoClient.getDatabase(&quot;mycol&quot;);
+
+            System.out.println(&quot;Connect to database successfully!&quot;);
+            System.out.println(&quot;MongoDatabase inof is : &quot;+database.getName());
+
+            MongoCollection&lt;Document&gt; collection = database.getCollection(&quot;mycol&quot;);
+            //collection.updateOne(eq(&quot;_id&quot;, 1999),new Document(&quot;$set&quot;, new Document(&quot;title&quot;, &quot;更新了标题2&quot;)));
+            Document document = new Document(&quot;_id&quot;, 9999).append(&quot;title&quot;, &quot;MongoDB Insert Demo&quot;)
+                    .append(&quot;description&quot;,&quot;database&quot;)
+                    .append(&quot;likes&quot;, 30)
+                    .append(&quot;by&quot;, &quot;yiibai point&quot;)
+                    .append(&quot;url&quot;, &quot;http://www.yiibai.com/mongodb/&quot;);
+
+            collection.insertOne(document);
+            collection.find().forEach(printBlock);
+            collection.updateOne(eq(&quot;_id&quot;, 9999),new Document(&quot;$set&quot;, new Document(&quot;title&quot;, &quot;更新了标题2&quot;)));
+            collection.find().forEach(printBlock);
+
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + &quot;: &quot; + e.getMessage());
+        }
+    }
+
+    static Block&lt;Document&gt; printBlock = new Block&lt;Document&gt;() {
+        public void apply(final Document document) {
+            System.out.println(document.toJson());
+        }
+    };
+}
+</code></pre>
+<p>执行上面代码，得到以下结果 - </p>
+<pre><code class="lang-shell">{ &quot;_id&quot; : 1999, &quot;title&quot; : &quot;更新了标题2&quot;, &quot;description&quot; : &quot;database&quot;, &quot;likes&quot; : 30, &quot;by&quot; : &quot;yiibai point&quot;, &quot;url&quot; : &quot;http://www.yiibai.com/mongodb/&quot; }
+{ &quot;_id&quot; : 9999, &quot;title&quot; : &quot;MongoDB Insert Demo&quot;, &quot;description&quot; : &quot;database&quot;, &quot;likes&quot; : 30, &quot;by&quot; : &quot;yiibai point&quot;, &quot;url&quot; : &quot;http://www.yiibai.com/mongodb/&quot; }
+{ &quot;_id&quot; : 1999, &quot;title&quot; : &quot;更新了标题2&quot;, &quot;description&quot; : &quot;database&quot;, &quot;likes&quot; : 30, &quot;by&quot; : &quot;yiibai point&quot;, &quot;url&quot; : &quot;http://www.yiibai.com/mongodb/&quot; }
+{ &quot;_id&quot; : 9999, &quot;title&quot; : &quot;更新了标题2&quot;, &quot;description&quot; : &quot;database&quot;, &quot;likes&quot; : 30, &quot;by&quot; : &quot;yiibai point&quot;, &quot;url&quot; : &quot;http://www.yiibai.com/mongodb/&quot; }
+</code></pre>
+<h2 id="h2-u5220u9664u6587u6863"><a name="删除文档" class="reference-link"></a><span class="header-link octicon octicon-link"></span>删除文档</h2><p>要从集合中删除第一个文档，需要首先使用<code>findOne()</code>方法选择文档，然后使用<code>com.mongodb.DBCollection</code>类的<code>remove()</code>方法。</p>
+<p>以下是删除第一个文档的代码片段 -</p>
+<pre><code class="lang-java">package com.yiibai.MongoDBJDBC;
+
+import org.bson.Document;
+
+import com.mongodb.Block;
+/**
+ * Hello world!
+ *
+ */
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.ServerAddress;
+
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoCollection;
+
+import org.bson.Document;
+
+import com.mongodb.client.MongoCursor;
+import static com.mongodb.client.model.Filters.*;
+import com.mongodb.client.result.DeleteResult;
+import static com.mongodb.client.model.Updates.*;
+import com.mongodb.client.result.UpdateResult;
+import java.util.ArrayList;
+import java.util.List;
+
+public class App {
+
+    public static void main(String args[]) {
+
+        try {
+
+            // To connect to mongodb server
+            MongoClient mongoClient = new MongoClient(&quot;127.0.0.1&quot;, 27017);
+
+            // Now connect to your databases
+            MongoDatabase database = mongoClient.getDatabase(&quot;mycol&quot;);
+
+            System.out.println(&quot;Connect to database successfully!&quot;);
+            System.out.println(&quot;MongoDatabase inof is : &quot;+database.getName());
+
+            // 更新文档
+            MongoCollection&lt;Document&gt; collection = database.getCollection(&quot;mycol&quot;);
+            /**
+            Document document = new Document(&quot;_id&quot;, 9999).append(&quot;title&quot;, &quot;MongoDB Insert Demo&quot;)
+                    .append(&quot;description&quot;,&quot;database&quot;)
+                    .append(&quot;likes&quot;, 30)
+                    .append(&quot;by&quot;, &quot;yiibai point&quot;)
+                    .append(&quot;url&quot;, &quot;http://www.yiibai.com/mongodb/&quot;);
+
+            collection.insertOne(document);
+            //collection.find().forEach(printBlock);
+            //collection.updateOne(eq(&quot;_id&quot;, 9999),new Document(&quot;$set&quot;, new Document(&quot;title&quot;, &quot;更新了标题2&quot;)));
+
+            */
+            collection.find().forEach(printBlock);
+
+            // 删除文档
+            collection.deleteOne(eq(&quot;_id&quot;, 9999));
+            System.out.println(&quot;After Delete Document:&quot;);
+            collection.find().forEach(printBlock);
+
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + &quot;: &quot; + e.getMessage());
+        }
+    }
+
+    static Block&lt;Document&gt; printBlock = new Block&lt;Document&gt;() {
+        public void apply(final Document document) {
+            System.out.println(document.toJson());
+        }
+    };
+}
+</code></pre>
+<p>执行上面代码，得到以下结果 - </p>
+<pre><code class="lang-shell">{ &quot;_id&quot; : 1999, &quot;title&quot; : &quot;更新了标题2&quot;, &quot;description&quot; : &quot;database&quot;, &quot;likes&quot; : 30, &quot;by&quot; : &quot;yiibai point&quot;, &quot;url&quot; : &quot;http://www.yiibai.com/mongodb/&quot; }
+{ &quot;_id&quot; : 9999, &quot;title&quot; : &quot;更新了标题2&quot;, &quot;description&quot; : &quot;database&quot;, &quot;likes&quot; : 30, &quot;by&quot; : &quot;yiibai point&quot;, &quot;url&quot; : &quot;http://www.yiibai.com/mongodb/&quot; }
+After Delete Document:
+{ &quot;_id&quot; : 1999, &quot;title&quot; : &quot;更新了标题2&quot;, &quot;description&quot; : &quot;database&quot;, &quot;likes&quot; : 30, &quot;by&quot; : &quot;yiibai point&quot;, &quot;url&quot; : &quot;http://www.yiibai.com/mongodb/&quot; }
+</code></pre>
+
+					<br />
+										<p style="text-align:center;float:left;width:100%;margin-top:24px;margin-bottom:18px;">
+							<button class="layui-btn layui-btn-danger" id="btn-reward"> ¥ 我要打赏 </button>&nbsp;&nbsp;
+							<button class="layui-btn" id="article-perfect">
+								<i class="layui-icon layui-icon-edit"></i>纠错/补充
+							</button>
+							<button class="layui-btn layui-btn-normal" id="action-collection">
+								<i class="layui-icon layui-icon-rate"></i>收藏
+							</button>
+					</p>
+					
+					<div style="width:100%;margin-bottom: 16px; min-height: 180px;margin-top:18px;float:left;">
+
+						<span style="float:left;">上一篇：<a href="https://www.yiibai.com/mongodb/mongodb_deployment.html#article-start" title="MongoDB部署"><i class="layui-icon"></i>
+								MongoDB部署</a></span>
+												<span style="float:right;">下一篇：<a href="https://www.yiibai.com/mongodb/mongodb_python.html#article-start" style="float:right;" title="下一篇：Python连接MongoDB操作"><i class="layui-icon"></i>
+								Python连接MongoDB操作</a></span>
+												<div id="googlead" style="float:left;margin-top:8px;">
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+							<!-- yiibai下方 -->
+							<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-1090193214637198" data-ad-slot="6494738921"></ins>
+							<script>
+								(adsbygoogle = window.adsbygoogle || []).push({});
+							</script>
+						</div>
+						
+						
+					</div>
+					
+
+					<div style="width:100%;margin-top:18px;float:left;">
+
+	<h4 style="color: #f57e42;padding-top:6px;padding-bottom: 4px;float: left;width: 100%;margin-bottom:12px;">加QQ群啦，易百教程官方技术学习群</h4>
+	<blockquote style="width:100%;float:left;margin-bottom:6px;padding-bottom:4px;">
+		注意：建议每个人选自己的技术方向加群，同一个QQ最多限加 3 个群。
+	</blockquote>
+	<ul style="width:100%;float:left;" id="qqgroup-list">
+		
+		
+	</ul>
+</div>
+				</div>
+
+				<!--// google adv -->
+				<div style="width:100%;float:left;">
+					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<ins class="adsbygoogle" style="display:block" data-ad-format="autorelaxed" data-ad-client="ca-pub-1090193214637198" data-ad-slot="1254304051"></ins>
+					<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+				</div>
+
+			</article>
+		</div>
+		<!--//end content-->
+
+		<div class="page-right">
+
+			<div class="item" style="height:260px;">
+
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- GoogleAdv-300x250 -->
+				<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1090193214637198" data-ad-slot="9485766451"></ins>
+				<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+			</div>
+
+			<div class="item" id="adv-c2" style="display:none;">
+				<!--// Adv C2 -->
+			</div>
+
+			<div class="item" style="height:610px;">
+
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- Right-300x600 -->
+				<ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-1090193214637198" data-ad-slot="9448740452"></ins>
+				<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+			</div>
+			
+		</div>
+		<!--//end page-right -->
+
+	</section>
+
+	<style>
+
+</style>
+<footer class="footer" style="width:100%;float:left;width: 100%;margin-top: 30px;">
+	<div class="container" id="yiiba-bottom">
+		<div class="ybm-block">
+			<div class="ybm cf">
+				<dl>
+					<dt>
+						推荐/最新教程
+					</dt>
+										<dd>
+						·<a href="https://www.yiibai.com/bash/" title="Bash Shell教程" target="_blank">Bash Shell教程</a>
+					</dd>
+										<dd>
+						·<a href="https://www.yiibai.com/elt/" title="ELT测试教程" target="_blank">ELT测试教程</a>
+					</dd>
+										<dd>
+						·<a href="https://www.yiibai.com/tableau/" title="Tableau教程" target="_blank">Tableau教程</a>
+					</dd>
+										<dd>
+						·<a href="https://www.yiibai.com/jira/" title="JIRA教程" target="_blank">JIRA教程</a>
+					</dd>
+										<dd>
+						·<a href="https://www.yiibai.com/agile/" title="敏捷开发（Agile）教程" target="_blank">敏捷开发（Agile）教程...</a>
+					</dd>
+										<dd>
+						·<a href="https://www.yiibai.com/ajax/" title="Ajax教程" target="_blank">Ajax教程</a>
+					</dd>
+										<dd>
+						·<a href="https://www.yiibai.com/ethical_hacking/" title="渗透测试(道德黑客)教程" target="_blank">渗透测试(道德黑客)教程...</a>
+					</dd>
+										<dd>
+						·<a href="https://www.yiibai.com/security_testing/" title="安全测试教程" target="_blank">安全测试教程</a>
+					</dd>
+					
+				</dl>
+				<dl>
+					<dt>
+						最新更新
+					</dt>
+										<dd>
+						·<a target="_blank" href="https://www.yiibai.com/bash/bash-sleep.html" title="Bash休眠（sleep命令）">Bash休眠（sleep命令）...</a>
+					</dd>
+										<dd>
+						·<a target="_blank" href="https://www.yiibai.com/bash/bash-date-format.html" title="Bash日期格式化">Bash日期格式化</a>
+					</dd>
+										<dd>
+						·<a target="_blank" href="https://www.yiibai.com/bash/bash-read-user-input.html" title="Bash读取用户输入">Bash读取用户输入...</a>
+					</dd>
+										<dd>
+						·<a target="_blank" href="https://www.yiibai.com/bash/bash-variables.html" title="Bash变量">Bash变量</a>
+					</dd>
+										<dd>
+						·<a target="_blank" href="https://www.yiibai.com/bash/quotes-in-bash.html" title="Bash引号">Bash引号</a>
+					</dd>
+										<dd>
+						·<a target="_blank" href="https://www.yiibai.com/bash/bash-comments.html" title="Bash注释">Bash注释</a>
+					</dd>
+										<dd>
+						·<a target="_blank" href="https://www.yiibai.com/bash/bash-relative-vs-absolute-path.html" title="相对路径与绝对路径">相对路径与绝对路径...</a>
+					</dd>
+										<dd>
+						·<a target="_blank" href="https://www.yiibai.com/bash/hello-world-bash-script.html" title="Bash入门程序">Bash入门程序</a>
+					</dd>
+					
+				</dl>
+
+				<dl>
+
+					<dt>
+						站点信息
+					</dt>
+					<dd>
+						· <a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=IBcWGRcSGBYYE2BRUQ5DT00" rel="external nofollow">意见反馈</a>
+					</dd>
+					<dd>
+						· <a target="_blank" href="https://www.yiibai.com/disclaimer.html">免责声明</a>
+					</dd>
+					<dd>
+						· <a target="_blank" href="https://www.yiibai.com/about_us.html">关于我们</a>
+					</dd>
+					<dd>
+						· <a target="_blank" href="https://www.yiibai.com/reward.html#to-qcode">关于捐助</a>
+					</dd>
+					<dd>
+						· <a target="_blank" href="https://www.yiibai.com/siteinfo/download.html" style="color:#e74851;">所有实例代码下载</a>
+					</dd>
+				</dl>
+
+				<dl>
+					<dt>
+						易百教程官方QQ群
+					</dt>
+					<dd>
+						JAVA技术：227270512
+					</dd>
+					<dd>
+						MySQL数据库：418407075
+					</dd>
+					<dd>
+						Python技术： 287904175
+					</dd>
+					<dd>
+						大数据开发： 655154550
+					</dd>
+					<dd>
+						Linux技术： 479429477
+					</dd>
+					<dd>
+						PHP/Web技术： 460153241
+					</dd>
+
+				</dl>
+
+				<div class="search-share">
+					<div class="app-download">
+						<div>
+							<strong>关注微信公众号</strong>
+						</div>
+					</div>
+					<div class="share">
+						<img width="150" height="150" src="https://www.yiibai.com/static/img/qrcode.jpg">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<div id="footer-copyright" style="width: 100%;float:left;text-align: center;">
+	Copyright &copy; 2012-2019<strong><a href="https://www.yiibai.com" target="_blank">易百教程</a></strong>&nbsp; <strong> 
+		<a href="https://www.yiibai.com" target="_blank">yiibai.com</a></strong> All Rights Reserved. 备案号：<a href="http://www.miitbeian.gov.cn/">琼ICP备13001417号-3</a>  联系QQ：769728683 &nbsp;&nbsp;
+
+	<script>
+		var _hmt = _hmt || [];
+		(function() {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?424e222704e2274e37a8169110e6e00a";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+
+</div>
+
+<div class="fixed-btn">
+	<a class="to-top" onclick="backTop();" href="#backTop" title="返回顶部"> <i
+	class="fa fa-angle-up"></i></a>
+
+	<a class="qrcode"
+	href="javascript:;" title="关注我们"><i class="fa fa-qrcode"></i></a>
+
+	<a class="writer" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=IBcWGRcSGBYYE2BRUQ5DT00" style="font-size: 12px;"
+	title="问题反馈"><i class="fa fa-envelope-o"
+	style="font-size: 20px;"></i></a>
+	<!-- qrcode modal -->
+
+	<div id="bottom-qrcode" class="modal fade in" style="display: none;">
+		<h4>微信关注</h4>
+		<div class="panel-body">
+			<img alt="微信关注" width="128" height="128"
+			src="/static/img/qrcode.jpg">
+		</div>
+	</div>
+</div>
+
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/prism.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/main.js?v=v5.812"></script>
+<script>
+	$("#btn-reward").on('click', function() {
+		layer.open({
+			type : 2,
+			title : "请扫描以下二维码支付打赏",
+			area : ['56%', '70%'],
+			shade : 0.4,
+			closeBtn : 1,
+			shadeClose : true,
+			content : '/static/images/reward.png'
+		});
+
+	});
+	
+	
+	</script>
+	
+</body>
+<script>
+
+	function Strlen(str){
+		var len = 0;
+		for (var i=0; i<str.length; i++) { 
+		 var c = str.charCodeAt(i); 
+		//单字节加1 
+		 if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) { 
+		   len++; 
+		 } 
+		 else { 
+		  len+=2; 
+		 } 
+		} 
+		return len;
+	}
+
+    /**/
+    function setClipboardText(event){
+        event.preventDefault();
+        var node = document.createElement('div');
+        node.appendChild(window.getSelection().getRangeAt(0).cloneContents());
+		var url = document.location.href;
+		var htmlData = node.innerHTML;
+        var textData = window.getSelection().getRangeAt(0);
+
+		if(Strlen(node.innerHTML)>120){
+			htmlData = '<div>'+ node.innerHTML
+            + '//原文出自【易百教程】，商业转载请联系作者获得授权，非商业转载请保留原文链接：'+url+'\n\n<br /><br /></div>';
+
+			textData = window.getSelection().getRangeAt(0) + '//原文出自【易百教程】，商业转载请联系作者获得授权，非商业请保留原文链接：'+url+'\n\n';
+		}
+        
+        if(event.clipboardData){
+            event.clipboardData.setData("text/html", htmlData);
+            //setData(剪贴板格式, 数据) 给剪贴板赋予指定格式的数据。返回 true 表示操作成功。
+            event.clipboardData.setData("text/plain",textData);
+        }else if(window.clipboardData){ //
+            return window.clipboardData.setData("text", textData);
+        }
+    };
+ 
+    document.addEventListener('copy',function(e){
+        setClipboardText(e);
+    });
+
+	$("#article-perfect").click(function(){
+		var aid = $('#article_id').val();
+		layer.open({
+			title : '修改报名表单项',
+			type : 2,
+			area : ['80%', '620px'],
+			fixed : true, // 不固定
+			maxmin : true,
+			skin : 'layui-layer-rim',
+			content : '/article/perfect/'+aid
+		});
+	})
+</script>
+</html>
+

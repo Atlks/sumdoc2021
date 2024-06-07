@@ -1,0 +1,7 @@
+app size
+
+wahts app 108M
+msgr   52M
+msgrlite 64M
+viber  187M
+kumu 69M

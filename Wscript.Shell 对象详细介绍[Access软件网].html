@@ -1,0 +1,1133 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Wscript.Shell 对象详细介绍[Access软件网]</title>
+<meta name="description" content="Wscript.Shell 对象详细介绍" />
+<link media="all" href="css/basic.css" rel="stylesheet" type="text/css" />
+<link media="all" href="css/article.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="../plugins/code/prettify.css" />
+<script charset="utf-8" src="../kindeditor-min.js"></script>
+<script charset="utf-8" src="../lang/zh_CN.js"></script>
+<script charset="utf-8" src="../plugins/code/prettify.js"></script>
+    <script>
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('#editor_id',{
+                cssPath : ['plugins/code/prettify.css']
+            });
+            prettyPrint();
+        });
+    </script>
+<script language="javascript" src="js/basic.js"></script>
+<script language="Javascript" type="text/Javascript">
+function checkinput()
+{
+var c_content=document.getElementById('C_Content').value;
+//alert(c_content);
+  var tempp="胡锦涛、习近平、李克强、薄熙来、温加宝、黑客、色情、黄色、性交、共产党、法轮、大法";
+  var regex=/、/
+  splittemp=tempp.split(regex);
+  for(i=0;i<splittemp.length;i++){
+    aa=splittemp[i]
+	//alert(aa)
+	if(c_content.indexOf(aa)!=-1){
+	alert("请提交的评论中包含\n"+splittemp[i]+"\n请重新填写");
+       document.getElementById('C_Content').focus();
+       return false;
+      }
+	}
+}
+
+
+function copyToClipBoard(){
+var clipBoardContent="";
+clipBoardContent+=document.title;
+clipBoardContent+="\n";
+clipBoardContent+=this.location.href;    //获取地址
+ if(window.clipboardData) {
+      window.clipboardData.clearData();
+      window.clipboardData.setData("Text", clipBoardContent);         //IE浏览?
+ } else if(navigator.userAgent.indexOf("Opera") != -1) {
+ } else if (window.netscape) {
+   try {
+        netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+   } catch (e) {
+        alert("你使用的火狐浏览器无法自动复制！\n请手动复制以下链接：\n"+this.location.href);
+   }
+   var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);
+   if (!clip)
+        return;
+   var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);
+   if (!trans)
+        return;
+   trans.addDataFlavor('text/unicode');
+   var str = new Object();
+   var len = new Object();
+   var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+   var copytext = clipBoardContent;
+   str.data = copytext;
+   trans.setTransferData("text/unicode",str,copytext.length*2);     //火狐或其他浏览器
+   var clipid = Components.interfaces.nsIClipboard;
+   if (!clip)
+        return false;
+   clip.setData(trans,null,clipid.kGlobalClipboard);
+ }
+ alert("您已成功复制了本页的地址至剪贴板!\n"+document.title+"\n"+this.location.href);
+ ifram.focus();
+}
+</script>
+
+<style type="text/css">
+<!--
+.STYLE1 {
+	color: #FF0000;
+	
+}
+.STYLE3 {color: #FF0000; font-weight: bold; }
+-->
+</style>
+</head>
+
+<body>
+<style type="text/css">
+<!--
+.STYLE1 {background-color: #FFFFFF}
+-->
+</style>
+<div id="header">
+	<div id="header_inner">
+	  <div id="umvlogo"><img src="images/access_logo.jpg" alt="access软件网" border="0" usemap="#Map" />
+<map name="Map" id="Map">
+  <area shape="rect" coords="2,2,192,56" href="http://www.accessoft.com" alt="access软件网" />
+<area shape="rect" coords="239,2,430,55" href="https://mvp.microsoft.com/zh-cn/default.aspx" target="_blank" alt="MVP" />
+</map></div>
+	  <div id="umvsearch">
+		  <div id="headlinks">
+    		 
+		  
+		  <a href="reg/reg.asp?userid=8">注册</a>
+		  | <a href="login.asp">登录</a> |
+		   
+		  <a href="javascript:void(0)"  onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.accessoft.com')" title="设为首页" target="_self"><font color="#FF0000">设为首页</font></a> | 
+		  <a href="javascript:bookmarksiteall('access软件网','http://www.accessoft.com/')" title="加入收藏" target="_self"><font color="#FF0000">收藏</font></a>
+		  </div>
+		  <div id="accessSearch">
+
+		  <form action="/searchresult.asp" method="post" name="searchbar" class="search">
+		  <input name="keyword" type="text" size="24" maxlength="80" style="height:18px;color:#CCCCCC;" value="点击这里输入关键字搜索..." onblur="OnExit()" onfocus="OnEnter()" />　
+		  <select name="stype">
+		    <option value="1">文章标题</option>
+		    <option value="5">文章作者</option>
+		    <option value="3">文章内容</option>
+		    <option value="2">帖子标题</option>
+		    <option value="6">帖子作者</option>
+		    <option value="4">帖子内容</option>
+		  </select>　
+		  <input type="image" name="imageField" src="images/searchbtn.jpg" />
+		  </form>
+		  </div>
+
+</table>
+	  </div>
+	  <div class="clear"></div>
+  </div>
+</div>
+<!-- 头部菜单 -->
+<div id="nav">
+	<div id="nav_inner">
+		<div class="sy"><a href="Index.asp">首页</a></div>
+		<div class="channel-colbig col">
+			<span class="nowrap" style="width:200px;">
+				<a href="training.asp" >Access培训</a> <a href="https://m.qlchat.com/live/840000166145996.htm"  target="_blank"><font color="#FFFF00">Access课堂</font></a> <a href="experience.asp">Access心得</a>
+				<a href="store.asp" target="_blank">Access网店</a>			</span>		</div>
+		<div class="channel-colbig col">
+			<span class="nowrap" style="width:200px;">
+				<a href="accsoft.asp" >Access作品</a> <a href="article-tek.asp">Access文章</a> <a href="download.html">Access下载</a>
+				<a href="/rdp/tutorial.html" target="_blank"><font color="#FFFF33">Access教程</font></a>			</span>		</div>
+		<div class="channel-col col">
+			<span class="nowrap" style="width:320px;">
+				<a href="kb.asp">知识库</a><a href="article-class.asp?classid=3">示例</a> <a href="article-class.asp?classid=17">采购</a> <a href="article-class.asp?classid=9">生产</a>
+				<a href="article-class.asp?classid=18">销售</a> <a href="expert.asp">专家</a><a href="tutorials.asp" target="_blank">电子书</a><a href="article-class.asp?classid=24">视频</a>
+				<a href="article-class.asp?classid=19">库存</a><a href="article-class.asp?classid=10">财务</a> <a href="article-class.asp?classid=20">人事</a><a href="http://www.accessgood.com" target="_blank"><font color="#FFFF33">平台</font></a>			</span>		</div>
+		<div class="channel-colbig col">
+			<span class="nowrap" style="width:130px;">
+				<a href="bbs" target="_blank">Access论坛</a> <a href="article-class.asp?classid=26">二级Access</a>							</span>		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<!-- 头部End -->
+
+<!-- 通栏头部广告 -->
+<div id="head_banner">
+<a href="/training.asp"><img src="images/Training.png" alt="Access数据库培训" border="0" title="Access数据库培训" /></a>
+</div>
+<!-- 友情链接 -->
+<div id="links" class="articleborder">
+	<h2 class="h2-blue cRed" style="font-weight:normal;">Access俱乐部</h2>
+	<div class="linklist">
+	<p><a href="http://www.accessoft.com/club/index.asp?cityname=北京" target="_blank">北京</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=上海" target="_blank">上海</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=天津" target="_blank">天津</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=重庆" target="_blank">重庆</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=广州" target="_blank">广州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=深圳" target="_blank">深圳</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=珠海" target="_blank">珠海</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=汕头" target="_blank">汕头</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=佛山" target="_blank">佛山</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=中山" target="_blank">中山</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=东莞" target="_blank">东莞</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=南京" target="_blank">南京</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=苏州" target="_blank">苏州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=无锡" target="_blank">无锡</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=常州" target="_blank">常州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=南通" target="_blank">南通</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=扬州" target="_blank">扬州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=徐州" target="_blank">徐州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=杭州" target="_blank">杭州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=温州" target="_blank">温州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=宁波" target="_blank">宁波</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=台州" target="_blank">台州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=福州" target="_blank">福州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=厦门" target="_blank">厦门</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=泉州" target="_blank">泉州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=龙岩" target="_blank">龙岩</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=合肥" target="_blank">合肥</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=芜湖" target="_blank">芜湖</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=成都" target="_blank">成都</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=遂宁" target="_blank">遂宁</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=长沙" target="_blank">长沙</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=株洲" target="_blank">株洲</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=湘潭" target="_blank">湘潭</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=常德" target="_blank">常德</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=武汉" target="_blank">武汉</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=南昌" target="_blank">南昌</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=济南" target="_blank">济南</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=青岛" target="_blank">青岛</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=威海" target="_blank">威海</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=烟台" target="_blank">烟台</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=潍坊" target="_blank">潍坊</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=淄博" target="_blank">淄博</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=济宁" target="_blank">济宁</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=太原" target="_blank">太原</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=郑州" target="_blank">郑州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=石家庄" target="_blank">石家庄</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=保定" target="_blank">保定</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=唐山" target="_blank">唐山</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=西安" target="_blank">西安</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=大连" target="_blank">大连</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=沈阳" target="_blank">沈阳</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=长春" target="_blank">长春</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=深圳" target="_blank">昆明</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=兰州" target="_blank">兰州</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=哈尔滨" target="_blank">哈尔滨</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=佳木斯" target="_blank">佳木斯</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=南宁" target="_blank">南宁</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=桂林" target="_blank">桂林</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=海口" target="_blank">海口</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=贵阳" target="_blank">贵阳</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=西宁" target="_blank">西宁</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=乌鲁木齐" target="_blank">乌鲁木齐</a> | <a href="http://www.accessoft.com/club/index.asp?cityname=包头" target="_blank">包头</a> | </p> 
+  </div>
+</div>
+<!-- 友情链接end -->
+<!-- 头部通知 -->
+<div id="head_notice">
+	<div id="notice_title">网站公告</div>
+	<div id="notice_list">		  
+<!--		<marquee onmouseover='this.stop()' onmouseout='this.start()'  scrollamount='5'> -->
+			·<a href="javascript:openwin(&quot;announce.asp?Id=36&quot;)">Access快速平台QQ群号：189307860</a>&nbsp;&nbsp;&nbsp;&nbsp;·<a href="javascript:openwin(&quot;announce.asp?Id=23&quot;)">Access快速开发平台下载地址及教程</a>&nbsp;&nbsp;&nbsp;&nbsp;·<a href="javascript:openwin(&quot;announce.asp?Id=21&quot;)">欢迎添加微信交流账号：Accessoft7</a>&nbsp;&nbsp;&nbsp;&nbsp;·<a href="javascript:openwin(&quot;announce.asp?Id=19&quot;)">如何快速搜索本站文章|示例|资料!</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<!--	      </marquee>-->
+	</div>
+	<div class="clear"></div>
+</div>
+
+</div>
+<!-- 网页主体 -->
+<div id="main_box">
+	
+	<div class="article_main">
+
+	<div style="background-color:#FFFFFF;float:left;width:695px;line-height:26px;border-bottom:solid 1px #efefef;margin-bottom:10px;">您的位置：　<a href="index.asp">首页</a> > <a href="/article-tek.asp">技术文章 </a>> <a href="article-class.asp?classid=3">源码示例</a></div>
+
+	<h1 class="article_titel">Wscript.Shell 对象详细介绍 </h1>
+	<div class="article_meta"><strong>来源</strong>:www.accessoft.com&nbsp;&nbsp;<strong>点击数</strong>:1916&nbsp;&nbsp;<strong>评论数</strong>:0　<span style="float:right;display:inline;width:160px;text-align:right"><a href="#reply" style="font-weight:bold;color:#3366CC;align:right;" >评论</a>&nbsp;|&nbsp;<a href="setfav.asp?id=16340" style="font-weight:bold;color:#3366CC;align:right;">收藏</a>&nbsp;|&nbsp;<a target="_self" onClick="copyToClipBoard()" style="font-weight:bold;color:#3366CC;align:right;cursor:pointer;">复制</a></span>
+	
+	
+	</div>
+	<div style="PADDING-RIGHT: 5px; PADDING-LEFT: 10px; FLOAT: right; PADDING-BOTTOM: 5px; PADDING-TOP: 5px">
+<div style="margin-top:5px;text-align:left;"><script language=javascript src="../ads/bbs_right.js"></script></div></div>
+<div id="article_body" class="article_body">
+<p>
+<strong>时　间</strong>:2017-04-30 10:35:31<br />
+<strong>作　者</strong>:<span color="#0000FF"><a target=blank href="blog/?userid=35404">易勋</a></span>&nbsp;&nbsp;&nbsp;ID：35404&nbsp;&nbsp;城市：上海<br />
+<strong>摘　要</strong>:Wscript.Shell&nbsp;对象详细介绍<br />
+<strong>正　文</strong>:<br />
+</p>
+<p>
+	WshShell 对象<br />
+ProgID Wscript.Shell<span>&nbsp;</span><br />
+文件名 WSHom.Ocx<span>&nbsp;</span><br />
+CLSID F935DC22-1CF0-11d0-ADB9-00C04FD58A0B<span>&nbsp;</span><br />
+IID F935DC21-1CF0-11d0-ADB9-00C04FD58A0B<span>&nbsp;</span><br />
+<br />
+<br />
+下表说明和 WshShell 对象有关的属性。<br />
+<br />
+属性 说明<span>&nbsp;</span><br />
+Environment 返回 WshEnvironment 集合对象。<span>&nbsp;</span><br />
+SpecialFolders 使用 WshSpecialFolders 对象提供对 Windows shell 文件夹的访问，如桌面文件夹，开始菜单文件夹和个人文档文件夹。<span>&nbsp;</span><br />
+<br />
+<br />
+下表说明和 WshShell 对象有关的方法。<br />
+<br />
+方法 说明<span>&nbsp;</span><br />
+Cr&#101;ateShortcut 创建并返回 WshShortcut 对象。<span>&nbsp;</span><br />
+ExpandEnvironmentStrings 扩展 PROCESS 环境变量并返回结果字符串。<span>&nbsp;</span><br />
+Popup 显示包含指定消息的消息窗口。<span>&nbsp;</span><br />
+RegDel&#101;te 从注册表中删除指定的键或值。<span>&nbsp;</span><br />
+RegRead 从注册表中返回指定的键或值。<span>&nbsp;</span><br />
+RegWrite 在注册表中设置指定的键或值。<span>&nbsp;</span><br />
+Run 创建新的进程，该进程用指定的窗口样式执行指定的命令。<span>&nbsp;</span><br />
+<br />
+<br />
+WshShell.Environment<br />
+Environment 属性返回 WshEnvironment 对象。<span>&nbsp;</span><br />
+<br />
+语法<br />
+WshShell.Environment ( [strType]) =
+objWshEnvironment<br />
+<br />
+注释<br />
+若 strType 指定了环境变量所处的位置，可能值为 "System"、"User"、"Volatile" 和 "Process"。若未提供 strType，则该方法在 Windows NT 中检索系统环境变量或在 Windows 95 中检索进程环境变量。<br />
+<br />
+对于 Windows 95，strType 参数仅支持 "Process"。<br />
+<br />
+下列变量是由 Windows 操作系统提供的。脚本也可获取由其他应用程序设置的环境变量。<br />
+<br />
+名称 说明<span>&nbsp;</span><br />
+NUMBER_OF_PROCESSORS 计算机上运行的处理器数目。<span>&nbsp;</span><br />
+PROCESSOR_ARCHITECTURE 用户工作站使用的处理器类型。<span>&nbsp;</span><br />
+PROCESSOR_IDENTIFIER 用户工作站的处理器 ID。<span>&nbsp;</span><br />
+PROCESSOR_LEVEL 用户工作站的处理器级。<span>&nbsp;</span><br />
+PROCESSOR_REVISION 用户工作站的处理器版本。<span>&nbsp;</span><br />
+OS 用户工作站所用的操作系统。<span>&nbsp;</span><br />
+COMSPEC 用于运行“命令提示”窗口的命令（通常为 cmd.exe）。<span>&nbsp;</span><br />
+HOMEDRIVE 本地主驱动器（通常为 C 驱动器）。<span>&nbsp;</span><br />
+HOMEPATH 用户的默认路径（在 Windows NT 上通常为 usersdefault）。<span>&nbsp;</span><br />
+PATH 路径环境变量。<span>&nbsp;</span><br />
+PATHEXT 可执行文件的扩展名（通常为 .com、 .exe、.bat 或 .cmd）。<span>&nbsp;</span><br />
+PROMPT 命令提示符（通常为 ＄P＄G）。<span>&nbsp;</span><br />
+SYSTEMDRIVE 系统所在的本地驱动器（例如，c:）。<span>&nbsp;</span><br />
+SYSTEMROOT 系统目录（例如，c:winnt）。和 WINDIR 相同。<span>&nbsp;</span><br />
+WINDIR 系统目录（例如 c:winnt）。和 SYSTEMROOT 相同。<span>&nbsp;</span><br />
+TEMP 存储临时文件的目录（例如，c:temp）。用户可更改。<span>&nbsp;</span><br />
+TMP 存储临时文件的目录（例如，c:temp）。用户可更改。<span>&nbsp;</span><br />
+<br />
+<br />
+示例<br />
+'' Retrieve the NUMBER_OF_PROCESSORS system
+environment variable<br />
+Set WshShell =
+Wscript.Cr&#101;ateObject("Wscript.Shell")<br />
+<br />
+Set WshSysEnv =
+WshShell.Environment("SYSTEM")<br />
+Wscript.Echo
+WshSysEnv("NUMBER_OF_PROCESSORS")<br />
+<br />
+请参阅<br />
+WshEnvironment 对象<br />
+<br />
+<br />
+WshEnvironment 对象<br />
+WshEnvironment 对象未直接给出，可用 WshShell.Environment 属性来访问。<br />
+<br />
+ProgID N/A<span>&nbsp;</span><br />
+文件名 WSHom.Ocx<span>&nbsp;</span><br />
+CLSID<span>&nbsp;</span><br />
+IID<span>&nbsp;</span><br />
+<br />
+<br />
+下表描述与 WshEnvironment 对象关联的属性。<br />
+<br />
+属性 说明<span>&nbsp;</span><br />
+Item 获取或设置指定的环境变量值。<span>&nbsp;</span><br />
+Count 枚举项的数目。<span>&nbsp;</span><br />
+length 枚举项的数目 (JScript)。<span>&nbsp;</span><br />
+<br />
+<br />
+下表描述与 WshEnvironment 对象关联的方法。<span>&nbsp;</span><br />
+<br />
+方法 说明<span>&nbsp;</span><br />
+Remove 删除指定的环境变量。<span>&nbsp;</span><br />
+<br />
+<br />
+WshShell.SpecialFolders<br />
+SpecialFolders 属性提供 WshSpecialFolders 对象以便访问 Windows 的 shell 文件夹，例如桌面文件夹、开始菜单文件夹和个人文档文件夹。<br />
+<br />
+语法<br />
+WshShell.SpecialFolders = objWshSpecialFolders<br />
+<br />
+示例<br />
+'' This code fragment shows how to access the
+desktop folder<br />
+Set WshShell =
+Wscript.Cr&#101;ateObject("Wscript.Shell")<br />
+MsgBox "Your desktop is " &amp;
+WshShell.SpecialFolders("Desktop")<br />
+请参阅<br />
+WshSpecialFolders 对象<br />
+<br />
+WshSpecialFolders 对象<br />
+该对象未直接给出。要得到
+WshSpecialFolders 对象，请使用
+WshShell.SpecialFolders 属性。<br />
+<br />
+ProgID N/A<span>&nbsp;</span><br />
+文件名 WSHom.Ocx<span>&nbsp;</span><br />
+CLSID<span>&nbsp;</span><br />
+IID<span>&nbsp;</span><br />
+<br />
+<br />
+下表描述与
+WshSpecialFolders 对象关联的属性。<span>&nbsp;</span><br />
+<br />
+属性 描述<span>&nbsp;</span><br />
+Item 指定文件夹的完整路径（默认）。<span>&nbsp;</span><br />
+Count 枚举项的数目。<span>&nbsp;</span><br />
+length 枚举项的数目 (JScript) 。<span>&nbsp;</span><br />
+<br />
+WshSpecialFolders.Item<br />
+Item 属性返回由 strFolderName 指定的文件夹的完整路径。它是默认属性。<br />
+<br />
+语法<br />
+WshShell.SpecialFolders.Item("strFolderName")
+= strFolderPath<br />
+WshShell.SpecialFolders("strFolderName")
+= strFolderPath<br />
+<br />
+注释<br />
+若请求的文件夹
+(strFolderName) 不可用，则
+WshShell.SpecialFolders("strFolderName") 返回 NULL。例如，Windows 95 没有 AllUsersDesktop 文件夹，如果 strFolderName = AllUsersDesktop，则返回 NULL。<br />
+<br />
+Windows 95 和 Windows
+NT 4.0 操作系统提供下列指定文件夹：<span>&nbsp;</span><br />
+AllUsersDesktop<br />
+AllUsersStartMenu<br />
+<br />
+AllUsersPrograms<br />
+<br />
+AllUsersStartup<br />
+<br />
+Desktop<br />
+<br />
+Favorites<br />
+<br />
+Fonts<br />
+<br />
+MyDocuments<br />
+<br />
+NetHood<br />
+<br />
+PrintHood<br />
+<br />
+Programs<br />
+<br />
+Recent<br />
+<br />
+SendTo<br />
+<br />
+StartMenu<br />
+<br />
+Startup<br />
+<br />
+Templates<br />
+<br />
+示例<br />
+'' This fragment returns the full path for the
+Windows Desktop folder<br />
+Set WshShell =
+Wscript.Cr&#101;ateObject("Wscript.Shell")<br />
+StrMyDesktop =
+WshShell.SpecialFolders("Desktop")<br />
+<br />
+'' List all special folders<br />
+For Each strFolder In WshShell.SpecialFolders<br />
+MsgBox strFolder<br />
+Next<br />
+<br />
+请参阅<br />
+WshShell.SpecialFolders 属性<span>&nbsp;</span><br />
+<br />
+<br />
+WshShell.Cr&#101;ateShortcut<br />
+Cr&#101;ateShortcut 方法创建 WshShortcut 对象并将其返回。如果快捷方式标题以 .url 结尾，就会创建 WshURLShortcut 对象。<br />
+<br />
+语法<br />
+WshShell.Cr&#101;ateShortcut(strPathname) =
+objShortcut<br />
+<br />
+示例<br />
+'' This code fragment cr&#101;ates a shortcut<span>&nbsp;</span><br />
+'' to the currently executing script<br />
+Set WshShell =
+Wscript.Cr&#101;ateObject("Wscript.Shell")<br />
+Set oShellLink =
+WshShell.Cr&#101;ateShortcut("Current Script.lnk")<br />
+oShellLink.TargetPath = Wscript.ScriptFullName<br />
+oShellLink.Save<br />
+Set oUrlLink = WshShell.Cr&#101;ateShortcut("Microsoft
+Web Site.URL")<br />
+oUrlLink.TargetPath =
+"http://www.microsoft.com"<br />
+oUrlLink.Save<br />
+<br />
+请参阅<br />
+WshShortcut 对象、WshUrlShortcut 对象<br />
+<br />
+WshShortcut 对象<br />
+该对象未直接给出。要获得
+WshShortcut 对象，请使用
+WshShell.Cr&#101;ateShortcut 方法。<br />
+<br />
+ProgID N/A<span>&nbsp;</span><br />
+文件名 WSHom.Ocx<span>&nbsp;</span><br />
+CLSID F935DC28-1CF0-11d0-ADB9-00C04FD58A0B<span>&nbsp;</span><br />
+IID F935DC27-1CF0-11d0-ADB9-00C04FD58A0B<span>&nbsp;</span><br />
+<br />
+<br />
+下表说明和 WshShortcut 对象有关的属性。<br />
+<br />
+属性 说明<span>&nbsp;</span><br />
+Arguments 快捷方式对象的参数。<span>&nbsp;</span><br />
+Description 快捷方式对象的说明。<span>&nbsp;</span><br />
+Hotkey 快捷方式对象的热键。<span>&nbsp;</span><br />
+IconLocation 快捷方式对象的图标位置。<span>&nbsp;</span><br />
+TargetPath 快捷方式对象的目标路径。<span>&nbsp;</span><br />
+WindowStyle 快捷方式对象的窗口样式。<span>&nbsp;</span><br />
+WorkingDirectory 快捷方式对象的工作目录。<span>&nbsp;</span><br />
+<br />
+<br />
+下表说明与 WshShortcut 对象有关的方法。<br />
+<br />
+方法 说明<span>&nbsp;</span><br />
+Save 将快捷方式存储到指定的文件系统中。<span>&nbsp;</span><br />
+<br />
+WshShortcut.Arguments<br />
+Arguments 属性提供快捷方式对象的参数。<br />
+<br />
+语法<br />
+WshShortcut.Arguments = strArguments<br />
+<br />
+WshShortcut.Description<br />
+Description 属性提供快捷方式对象的说明。<br />
+<br />
+语法<br />
+WshShortcut.Description = strDescription<br />
+<br />
+WshShortcut.Hotkey<br />
+HotKey 属性提供快捷方式对象的热键。热键是启动或切换程序的键盘快捷方式。<br />
+<br />
+语法<br />
+WshShortcut.HotKey = strHotKey<br />
+<br />
+注释<br />
+strHotKey 的BNF语法如下：<br />
+<br />
+Hotkey ::= modifier* keyname<br />
+modifier ::= "ALT+" |
+"CTRL+" | "SHIFT+" | "EXT+"<br />
+keyname ::= "A" .. "Z" |<span>&nbsp;</span><br />
+"0".. "9" |<span>&nbsp;</span><br />
+"Back" | "Tab" |
+"Clear" | "Return" |<br />
+"Escape" | "Space" |
+"Prior" | ...<br />
+<br />
+所有键的名称都可以在 WINUSER.H
+中找到。热键不区分大小写。<br />
+<br />
+热键只能激活位于 Windows 桌面或 Windows“开始”菜单的快捷方式。<br />
+<br />
+Windows 资源管理器不接受 ESC、ENTER、TAB、SPACE、PRINT SCREEN 或 BACKSPACE，即使 WshShortcut.Hotkey 遵循 Win32 API 支持它们。因此，建议在快捷方式中不要用这些键。<br />
+<br />
+示例<br />
+Set WshShell =
+Wscript.Cr&#101;ateObject("Wscript.WshShell")<br />
+strDesktop =
+WshShell.SpecialFolders("Desktop")<br />
+Set oMyShortcut =
+WshShell.Cr&#101;ateShortcut(strDesktop &amp; "a_key.lnk")<br />
+OMyShortcut.TargetPath =
+"%windir%notepad.exe"<br />
+oMyShortCut.Hotkey = "ALT+CTRL+F"<br />
+oMyShortCut.Save<br />
+Wscript.Echo oMyShortCut.HotKey =
+"Alt+Ctrl+F"<br />
+<br />
+请参阅<br />
+WshSpecialFolders 对象<br />
+<br />
+WshShortcut.IconLocation<br />
+IconLocation 属性提供快捷方式对象的图标位置。图标位置的格式应为 "Path,index"。<br />
+<br />
+语法<br />
+WshShortcut.IconLocation = strIconLocation<br />
+<br />
+WshShortcut.TargetPath<br />
+TargetPath 属性提供快捷方式对象的目标路径。<br />
+<br />
+语法<br />
+WshShortcut.TargetPath = strTargetPath<br />
+<br />
+WshShortcut.WindowStyle<br />
+WindowStyle 属性提供快捷方式对象的窗口样式。<br />
+<br />
+语法<br />
+WshShortcut.WindowStyle = natWindowStyle<br />
+<br />
+WshShortcut.WorkingDirectory<br />
+WorkingDirectory 为一个快捷方式对象提供工作目录。<br />
+<br />
+语法<br />
+WshShortcut.WorkingDirectory =
+strWorkingDirectory<br />
+<br />
+WshShortcut.Save<br />
+Save 方法把快捷方式对象保存到由 FullName 属性指定的位置。<br />
+<br />
+语法<br />
+WshShortcut.Save<br />
+<br />
+WshUrlShortcut 对象<br />
+该对象未直接给出。要获取
+WshUrlShortcut 对象，可使用
+WshShell.Cr&#101;ateShortcut 方法。<br />
+<br />
+ProgID N/A<span>&nbsp;</span><br />
+文件名 WSHom.Ocx<span>&nbsp;</span><br />
+CLSID<span>&nbsp;</span><br />
+IID<span>&nbsp;</span><br />
+<br />
+<br />
+下表说明了和 WshUrlShortcut 对象有关的属性。<br />
+<br />
+属性 说明<span>&nbsp;</span><br />
+FullName URL 快捷方式对象的完整路径。<span>&nbsp;</span><br />
+TargetPath URL 快捷方式对象的目标路径。<span>&nbsp;</span><br />
+<br />
+<br />
+下表说明了和 WshUrlShortcut 对象有关的方法。<br />
+<br />
+方法 说明<span>&nbsp;</span><br />
+Save 将快捷方式保存到指定的文件系统中。<span>&nbsp;</span><br />
+<br />
+WshUrlShortcut.FullName<br />
+FullName 属性提供快捷方式对象的完整路径。<br />
+<br />
+语法<br />
+WshUrlShortcut.FullName = strFullName<br />
+<br />
+WshUrlShortcut.TargetPath<br />
+TargetPath 属性提供快捷方式对象的目标路径。<br />
+<br />
+语法<br />
+WshUrlShortcut.TargetPath = strTargetPath<br />
+<br />
+WshUrlShortcut.Save<br />
+Save 方法保存一个快捷方式，该快捷方式指向 FullName 属性指定的位置。<br />
+<br />
+语法<br />
+WshUrlShortcut.Save<br />
+<br />
+WshShell.ExpandEnvironmentStrings<br />
+ExpandEnvironmentStrings 方法在 strString 中扩展 PROCESS 环境变量并返回结果字符串。变量被 ''%'' 字符括起。<br />
+<br />
+环境变量不区分大小写。<br />
+<br />
+语法<br />
+WshShell.ExpandEnvironmentStrings(strString) =
+strExpandedString<br />
+<br />
+示例<br />
+MsgBox "Prompt is " &amp;
+WshShell.ExpandEnviromentStrings("%PROMPT%")<br />
+<br />
+<br />
+<br />
+WshShell.Popup<br />
+Popup 方法显示一个弹出式消息框窗口，消息框中包含的消息由 strText 指定。该消息框的窗口标题由 strTitle 指定。若 strTitle 省略，则窗口标题为 Windows Scripting Host。<br />
+<br />
+语法<br />
+WshShell.Popup(strText, [natSecondsToWait],
+[strTitle], [natType]) = intButton<br />
+<br />
+注释<br />
+若提供 natSecondsToWait
+且其值大于零，则消息框在
+natSecondsToWait 秒后关闭。<br />
+<br />
+natType 的含义与其在 Win32? MessageBox 函数中相同。下表显示 natType 中的值及含义。下表中的值可以组合。<br />
+<br />
+按钮类型<br />
+值 说明<span>&nbsp;</span><br />
+0 显示“确定”按钮<span>&nbsp;</span><br />
+1 显示“确定”和“取消”按钮<span>&nbsp;</span><br />
+2 显示“终止”、“重试”和“忽略”按钮<span>&nbsp;</span><br />
+3 显示“是”、“否”和“取消”按钮<span>&nbsp;</span><br />
+4 显示“是”和“否”按钮<span>&nbsp;</span><br />
+5 显示“重试”和“取消”按钮<span>&nbsp;</span><br />
+<br />
+<br />
+图标类型<br />
+值 说明<span>&nbsp;</span><br />
+16 显示停止标记图标<span>&nbsp;</span><br />
+32 显示问号图标<span>&nbsp;</span><br />
+48 显示感叹号图标<span>&nbsp;</span><br />
+64 显示信息标记图标<span>&nbsp;</span><br />
+<br />
+<br />
+以上两个表并不涵盖 natType 的所有值。完整的列表请参阅 Win32 文档。<br />
+<br />
+返回值 intButton 指示用户所单击的按扭编号。若用户在 natSecondsToWait 秒之前不单击按扭，则 intButton 设置为 -1 。<br />
+<br />
+值 说明<span>&nbsp;</span><br />
+1 “确定”按扭<span>&nbsp;</span><br />
+2 “取消”按扭<span>&nbsp;</span><br />
+3 “终止”按扭<span>&nbsp;</span><br />
+4 “重试”按扭<span>&nbsp;</span><br />
+5 “忽略”按扭<span>&nbsp;</span><br />
+6 “是”按扭<span>&nbsp;</span><br />
+7 “否”按扭<span>&nbsp;</span><br />
+<br />
+<br />
+示例<br />
+Set WshShell =
+Wscript.Cr&#101;ateObject("Wscript.Shell")<br />
+WshShell.Popup "Wh&#101;re do you want to go
+today?"<br />
+<br />
+请参阅<br />
+Wscript.Echo 方法<br />
+<br />
+Wscript.Echo<br />
+Echo 方法在窗口（Wscript.exe 中）或“命令提示符”窗口（Cscript.exe 中）显示参数。<br />
+<br />
+参数用空格分隔。在
+Cscript.exe 中，该方法在显示最后一个参数之后输出一对回车/换行（CR LF）。<br />
+<br />
+语法<br />
+Wscript.Echo [anyArg...]<br />
+<br />
+示例<span>&nbsp;</span><br />
+Wscript.Echo<br />
+Wscript.Echo 1, 2, 3<br />
+Wscript.Echo "Windows Scripting Host is
+cool."<br />
+<br />
+WshShell.RegDel&#101;te<br />
+RegDel&#101;te 从注册表中删除名为 strName 的键或值。<span>&nbsp;</span><br />
+<br />
+语法<br />
+WshShell.RegDel&#101;te strName<br />
+<br />
+参数<br />
+strName<span>&nbsp;</span><br />
+如果 strName 以反斜杠 () 结束，则该方法删除键而不是值。<span>&nbsp;</span><br />
+strName 参数必须以下列之一的根键名开始：<br />
+<br />
+短根键名 长根键名<span>&nbsp;</span><br />
+HKCU HKEY_CURRENT_USER<span>&nbsp;</span><br />
+HKLM HKEY_LOCAL_MACHINE<span>&nbsp;</span><br />
+HKCR HKEY_CLASSES_ROOT<span>&nbsp;</span><br />
+HKEY_USERS<span>&nbsp;</span><br />
+HKEY_CURRENT_CONFIG<span>&nbsp;</span><br />
+<br />
+<br />
+示例<br />
+Set WshShell =
+Wscript.Cr&#101;ateObject("Wscript.Shell")<br />
+<br />
+WshShell.RegDel&#101;te
+"HKCUScriptEngineValue" '' Del&#101;te value "Value"<br />
+WshShell.RegDel&#101;te
+"HKCUScriptEngineKey" '' Del&#101;te key "Key"<br />
+<br />
+请参阅<br />
+WshShell.RegRead 方法、WshShell.RegWrite 方法<br />
+<br />
+<br />
+WshShell.RegRead<br />
+RegRead 方法返回名为 strName 的注册表键或值。<span>&nbsp;</span><br />
+<br />
+语法<br />
+WshShell.RegRead(strName) = strValue<br />
+<br />
+参数<br />
+strName<span>&nbsp;</span><br />
+如果 strName 以反斜杠 () 结束，则该方法返回键，而不是值。<br />
+strName 参数必须以下列根键名开始。<br />
+<br />
+Short Long<span>&nbsp;</span><br />
+HKCU HKEY_CURRENT_USER<span>&nbsp;</span><br />
+HKLM HKEY_LOCAL_MACHINE<span>&nbsp;</span><br />
+HKCR HKEY_CLASSES_ROOT<span>&nbsp;</span><br />
+HKEY_USERS<span>&nbsp;</span><br />
+HKEY_CURRENT_CONFIG<span>&nbsp;</span><br />
+<br />
+<br />
+注释<br />
+RegRead 方法仅支持 REG_SZ、REG_EXPAND_SZ、REG_DWORD、REG_BINARY
+和 REG_MULTI_SZ 数据类型。若注册表有其他数据类型，RegRead 返回 DISP_E_TYPEMISMATCH。<br />
+<br />
+示例<br />
+Set WshShell =
+Wscript.Cr&#101;ateObject("Wscript.Shell")<br />
+<br />
+WshShell.RegRead("HKCUScriptEngineVal")
+'' Read from value "Val"<br />
+WshShell.RegRead("HKCUScriptEngineKey")
+'' Read from key "Key"<br />
+<br />
+请参阅<br />
+WshShell.RegDel&#101;te 方法、WshShell.RegWrite 方法<br />
+<br />
+<br />
+WshShell.RegWrite<br />
+RegWrite 方法设置名为 strName 的注册表键或值。<span>&nbsp;</span><br />
+<br />
+语法<br />
+WshShell.RegWrite strName, anyValue, [strType]<br />
+<br />
+参数<br />
+strName<span>&nbsp;</span><br />
+若 <span>strName </span>以一个反斜杠 () 结束，则该方法设置键，而不是值。<br />
+strName 参数必须以下列根键名开头。<br />
+<br />
+Short Long<span>&nbsp;</span><br />
+HKCU HKEY_CURRENT_USER<span>&nbsp;</span><br />
+HKLM HKEY_LOCAL_MACHINE<span>&nbsp;</span><br />
+HKCR HKEY_CLASSES_ROOT<span>&nbsp;</span><br />
+HKEY_USERS<span>&nbsp;</span><br />
+HKEY_CURRENT_CONFIG<span>&nbsp;</span><br />
+<br />
+<br />
+<br />
+anyValue<span>&nbsp;</span><br />
+当 strType 为 REG_SZ 或
+REG_EXPAND_SZ 时，RegWrite 方法自动将 anyValue 转换为字符串。若 strType 为 REG_DWORD，则 anyValue 被转换为整数。若 strType 为
+REG_BINARY，则 anyValue 必须是一个整数。<br />
+<br />
+strType<span>&nbsp;</span><br />
+RegWrite 方法支持 strType 为 REG_SZ、REG_EXPAND_SZ、REG_DWORD 和 REG_BINARY。若其他的数据类型被作为 strType 传递，RegWrite 返回 E_INVALIDARG。<span>&nbsp;</span><br />
+示例<br />
+Set WshShell = Wscript.Cr&#101;ateObject("Wscript.Shell")<br />
+<br />
+WshShell.RegWrite
+"HKCUScriptEngineValue", "Some string value"<br />
+WshShell.RegWrite
+"HKCUScriptEngineKey", 1 "REG_DWORD"<br />
+<br />
+请参阅<br />
+WshShell.RegDel&#101;te 方法、WshShell.RegWrite方法<br />
+<br />
+<br />
+WshShell.Run<br />
+Run 方法创建一个新的进程，该进程以 intWindowStyle 窗口样式执行 strCommand。<br />
+<br />
+语法<br />
+WshShell.Run (strCommand, [intWindowStyle],
+[blnWaitOnReturn])<br />
+<br />
+参数<br />
+strCommand<span>&nbsp;</span><br />
+在 strCommand 参数内部的环境变量被自动扩展。<br />
+<br />
+intWindowStyle<span>&nbsp;</span><br />
+这是为新进程在
+STARTUPINFO 结构内设置的 wShowWindow 元素的值。其意义与 ShowWindow 中的 nCmdShow 参数相同，可取以下值之一。名称 值 含义<span>&nbsp;</span><br />
+SW_HIDE<br />
+0 隐藏窗口并激活另一窗口。<span>&nbsp;</span><br />
+SW_MINIMIZE<br />
+6 最小化指定窗口并激活按 Z 序排序的下一个顶层窗口。<span>&nbsp;</span><br />
+SW_RESTORE<br />
+9 激活并显示窗口。若窗口是最小化或最大化，则恢复到原来的大小和位置。在还原应用程序的最小化窗口时，应指定该标志。<span>&nbsp;</span><br />
+SW_SHOW<br />
+5 以当前大小和位置激活并显示窗口。<span>&nbsp;</span><br />
+SW_SHOWMAXIMIZED<br />
+3 激活窗口并以最大化显示该窗口。<span>&nbsp;</span><br />
+SW_SHOWMINIMIZED<br />
+2 激活窗口并以最小化显示该窗口。<span>&nbsp;</span><br />
+SW_SHOWMINNOACTIVE<br />
+7 最小化显示窗口。活动窗口保持活动。<span>&nbsp;</span><br />
+SW_SHOWNA<br />
+8 以当前状态显示窗口。活动窗口保持活动。<span>&nbsp;</span><br />
+SW_SHOWNOACTIVATE<br />
+4 按窗口最近的大小和位置显示。活动窗口保持活动。<span>&nbsp;</span><br />
+SW_SHOWNORMAL<br />
+1 激活并显示一个窗口。若窗口是最小化或最大化，则恢复到其原来的大小和位置。<span>&nbsp;</span><br />
+<br />
+<br />
+<br />
+blnWaitOnReturn<span>&nbsp;</span><br />
+如果未指定 blnWaitOnReturn 或其值为 FALSE，则该方法立即返回到脚本继续执行而不等待进程结束。<br />
+若 blnWaitOnReturn 设为 TRUE，则 Run 方法返回由应用程序返回的任何错误代码。如果未指定 blnWaitOnReturn 或其值为 FALSE，则 Run 返回错误代码 0（zero）。<br />
+<br />
+示例<br />
+'' This fragment launches Notepad with the
+current executed script<br />
+Set WshShell =
+Wscript.Cr&#101;ateObject("Wscript.Shell")<br />
+WshShell.Run ("notepad " &amp;
+Wscript.ScriptFullName)<br />
+WshShell.Run ("%windir%notepad" &amp;
+Wscript.ScriptFullName)<br />
+<br />
+'' This fragment returns the error code from the
+executed application<br />
+Return = WshShell.Run("notepad " &amp;
+Wscript.ScriptFullName, 1, TRUE)<span></span>
+</p>
+<br />
+<br />
+
+	<a href="javascript:openwin(&quot;announce.asp?Id=41&quot;)"><span class="STYLE3"> Access软件网QQ交流群</span><strong> (群号:26807301)</strong></a>
+
+　　　　　　<a href="http://www.accessoft.com/storelist.asp" target="_blank" class="STYLE1">access源码网店</a> <br />
+</div>
+
+<script type="text/javascript">
+//自动调整太大的图片
+var thisDiv = document.getElementById("article_body");
+var maxWidth = 680;
+var img = thisDiv.getElementsByTagName("img");
+function resizeImages(){
+	for (var i = 0; i < img.length; i++) {
+		//alert(img[i].width);
+		if (img[i].width > maxWidth){
+			
+			img[i].width = maxWidth;
+            img[i].style.cursor = "pointer"; 
+            img[i].title = "点击查看大图";
+            img[i].setAttribute("onclick", "showPicInNewWindow(" + i + ")");
+            //img[i].attachEvent("onclick", new Function("showPicInNewWindow("+i.toString()+");")); 
+		}
+	}
+}
+function showPicInNewWindow(p){ 
+	window.open(img[p].src); 
+}
+resizeImages();
+</script>
+		<div class="text_tool">【<a href="javascript:window.print()">打印此文</a>】【<a href="javascript:window.close();">关闭窗口</a>】</div>
+<!-- Baidu Button BEGIN -->
+<div class="bdsharebuttonbox" id="bdshare" style="float:right;">
+<a href="#" class="bds_more" data-cmd="more"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq"></a>
+<a href="#" class="bds_renren" data-cmd="renren"></a>
+<a class="bds_count" data-cmd="count"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["weixin","qzone","tsina","tqq","renren"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","qzone","tsina","tqq","renren"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- Baidu Button END -->
+		<!-- 相关新闻开始 -->
+		<div id="related_news">
+			<h2>相关文章</h2>
+			<div id="Re_newsContent">
+				<img src="images/new_row.gif"></img>&nbsp;&nbsp;<a href="article-show.asp?id=2281" target=_blank>API ShellExecute 功能说明及应用示例</a>&nbsp;&nbsp;【<a target="blank" href="blog/?userid=11" style="font-size:12px;color:EFEFEF;">黄海</a>&nbsp;&nbsp;2008/8/1】<br /><img src="images/new_row.gif"></img>&nbsp;&nbsp;<a href="article-show.asp?id=2369" target=_blank>ShellExecute</a>&nbsp;&nbsp;【<a target="blank" href="blog/?userid=43" style="font-size:12px;color:EFEFEF;">umvsoft整理</a>&nbsp;&nbsp;2008/8/18】<br /><img src="images/new_row.gif"></img>&nbsp;&nbsp;<a href="article-show.asp?id=2832" target=_blank>全能打手，首推ShellExecute</a>&nbsp;&nbsp;【<a target="blank" href="blog/?userid=1350" style="font-size:12px;color:EFEFEF;">andymark</a>&nbsp;&nbsp;2008/12/22】<br /><img src="images/new_row.gif"></img>&nbsp;&nbsp;<a href="article-show.asp?id=5886" target=_blank>利用WScript</a>&nbsp;&nbsp;【<a target="blank" href="blog/?userid=4506" style="font-size:12px;color:EFEFEF;">赵文斌</a>&nbsp;&nbsp;2011/9/29】<br /><img src="images/new_row.gif"></img>&nbsp;&nbsp;<a href="article-show.asp?id=16341" target=_blank>WScript.Shell对象SpecialFolders属性</a>&nbsp;&nbsp;【<a target="blank" href="blog/?userid=35404" style="font-size:12px;color:EFEFEF;">易勋</a>&nbsp;&nbsp;2017/4/30】<br />
+			</div>
+		</div>
+		<!-- 相关新闻结束 -->
+		<div id="related_Store">
+			<h2>Access网店</h2>
+			<ul>
+			
+			<li><a href="store_show.asp?ID=204" title="中医处方管理系统" target="_blank"><img src="http://www.accessoft.com/article_attached/2018/image/201803/201803191624328454.jpg" width="190" height="150" border="0" /><br />
+            中医处方管理系统</a><br />
+      价格：<span style="color:#FF0000">￥280</span>	元</li>
+			
+			<li><a href="store_show.asp?ID=202" title="Access职场实战范例" target="_blank"><img src="/storefiles/zcszfl.jpg" width="190" height="150" border="0" /><br />
+            Access职场实战范例</a><br />
+      价格：<span style="color:#FF0000">￥200</span>	元</li>
+			
+			<li><a href="store_show.asp?ID=203" title="从Excel到Access数据库" target="_blank"><img src="/storefiles/ETOA.jpg" width="190" height="150" border="0" /><br />
+            从Excel到Access数据库</a><br />
+      价格：<span style="color:#FF0000">￥199</span>	元</li>
+			
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<!-- 文章评论 -->
+		<div id="comments">
+
+			<div class="new_comment">
+			<br />
+				<h2 style="border-bottom:1px solid #D1DBDE;margin-bottom:5px;">最新评论<span style="padding-left:500px;font-weight: normal;">
+				
+				查看更多评论(<font color="#FF0000">0</font>)
+				
+				</span></h2>
+				 <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+	
+              </table>
+			</div>
+			<div class="left-comm">
+	
+	</div>
+		
+			<div class="postcomment">
+			  <h2>发表评论<span style="font-size:12px;margin-left:335px;font-weight:normal;color:#999999;">您的评论将提升作者分享的动力！快来评论一下吧！</span></h2>
+				<form name="article-comment" action="articlecomment-save.asp" method="post" onsubmit="return checkinput();" >
+				<table width="98%" border="0" cellpadding="3" style=" float:left">
+  <tr>
+    <td width="82">用户名：</td>
+    <td width="308"><input name="username" type="text" id="username" />
+      <a name="reply" id="reply"></a></td>
+  </tr>
+  <tr >
+    <td>密　码：</td>
+    <td><input name="password" type="password" id="password"  /></td>
+  </tr>
+  <tr>
+    <td>内　容：</td>
+    <td><textarea name="C_Content" cols="70" rows="6" id="C_Content"></textarea>
+	
+	</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" name="Submit2" value="发表评论" />
+      <input name="I_ArticleID" type="hidden" id="I_ArticleID" value="16340" />
+      <input name="I_UserID" type="hidden" id="I_UserID" value="" /></td>
+  </tr>
+</table>
+<div style=" float:right;margin-right:10px;">
+
+</div>
+			  </form>
+			  
+			</div>
+		</div>
+	<div class="clear">
+	  
+	</div>
+					
+				<div style="width:250px;float:left;padding-left:10px;margin-top:20px;">	
+	
+			<h2 class="h2-blue"><font class="title_left5"> 常见问答</font></h2>
+			<ul class="newstop" style="width:250px;">
+				<li><a href="/article-show.asp?id=7045" target="_blank">什么是Access?</a></li>
+				<li><a href="/article-show.asp?id=5714" target="_blank">Access有什么用处?</a></li>
+				<li><a href="/accsoft.asp" target="_blank">Access开发的软件作品哪里有介绍?</a></li>
+				<li><a href="/article-show.asp?id=282" target="_blank">我们到底该学习什么编程语言工具最合适？</a> </li>
+				<li><a href="/article-show.asp?id=7046" target="_blank">Access容易学吗?</a></li>
+				<li><a href="/article-show.asp?id=3397" target="_blank">如何学习Access才能早日学会?</a></li>
+				<li><a href="/article-show.asp?id=5004" target="_blank">三论Access学习方法</a></li>
+				<li><a href="/article-show.asp?id=165" target="_blank">Access学习方法总结</a></li>
+				<li><a href="/article-show.asp?id=7049" target="_blank">我适合于自学还是参加Access培训班?</a></li>
+				<li><a href="/training.asp" target="_blank">我想参加Access培训,哪里有Access培训?</a></li>
+				<li><a href="/download.html" target="_blank">从哪里可以下载Access?</a></li>
+			</ul>
+			<div class="clear"></div>
+	</div>
+		<div style="width:200px;float:left;padding-right:10px;margin-top:20px;margin-left:10px;" >		
+
+			<h2 class="h2-blue"><font class="title_left5 "> 技术分类</font></h2>
+			<ul class="newstop" style="width:200px;">
+
+					<li><a href="article-class.asp?classid=7" title="技术文章分类" target="_blank">Access表</a></li>	
+					
+					<li><a href="article-class.asp?classid=8" title="技术文章分类" target="_blank">Access查询</a></li>	
+					
+					<li><a href="article-class.asp?classid=11" title="技术文章分类" target="_blank">Access窗体/数据页</a></li>	
+					
+					<li><a href="article-class.asp?classid=12" title="技术文章分类" target="_blank">Access宏</a></li>	
+					
+					<li><a href="article-class.asp?classid=13" title="技术文章分类" target="_blank">Access模块/函数/VBA</a></li>	
+					
+					<li><a href="article-class.asp?classid=14" title="技术文章分类" target="_blank">Access报表</a></li>	
+					
+					<li><a href="article-class.asp?classid=15" title="技术文章分类" target="_blank">ADP及SQL SERVER</a></li>	
+										
+					<li><a href="article-class.asp?classid=23" title="技术文章分类" target="_blank">Access开发平台</a></li>	
+					
+					<li><a href="article-class.asp?classid=24" title="技术文章分类" target="_blank">Access视频教程</a></li>	
+					<li><a href="article-class.asp?classid=22" title="技术文章分类" target="_blank">Access2007</a></li>	
+					
+					<li><a href="article-class.asp?classid=25" title="技术文章分类" target="_blank">Access2010/2013/2016</a></li>	
+										
+			</ul>
+
+			<div class="clear"></div>
+	</div>
+	<div style="width:200px;float:left;padding-right:10px;margin-top:20px;" >		
+
+			<h2 class="h2-blue"><font class="title_left5 "> 相关资源</font></h2>
+			<ul class="newstop" style="width:200px;">
+			<li><a href="/article-show.asp?id=16715" title="初学者推荐学习课程" target="_blank">Access初学者学习计划</a></li>	
+<li><a href="/article-show.asp?id=16773" title="Access学习技术交际圈" target="_blank">Access学习护航计划</a></li>	
+<li><a href="/tutorials.html" target="_blank">Access新手教程</a></li>
+					<li><a href="accessbooks.asp" title="Access书籍" target="_blank">Access书籍</a></li>	
+					
+					<li><a href="group.asp" title="Access QQ群" target="_blank">Access QQ群</a></li>	
+					<li><a href="http://www.accessoft.com/announce.asp?Id=21" title="微信交流账号：Accessoft7" target="_blank">微信交流账号：Accessoft7</a></li>	
+					<li><a href="http://weibo.com/accesskb" title="Access新浪微博" target="_blank">Access新浪微博，</a> <a href="http://t.qq.com/UMVsoft" target="_blank">腾讯微博</a></li>
+						
+					<li><a href="http://www.accessgood.com" title="Access开发平台下载" target="_blank">Access开发平台下载</a></li>	
+					
+					<li><a href="http://shop35203329.taobao.com" title="Access淘宝" target="_blank">Access淘宝</a></li>	
+						
+					<li><a href="cityfriends.asp" title="Access同城交友" target="_blank">Access同城交友</a></li>	
+										
+					<li><a href="experience.asp" title="技术文章分类" target="_blank">Access开发心得</a></li>	
+					
+						
+					
+			</ul>
+
+			
+	</div>
+	<div class="clear"></div>
+	</div>
+	<!-- 页面右侧开始 -->
+	<div id="left_box">
+	<style type="text/css">
+<!--
+.STYLE1 {color: #FF0000}
+.STYLE2 {color: #000000}
+-->
+</style>
+<div class="ar_right">
+		<h2 class="h2-blue"><font class="title_left cYellow">最新帖子</font></h2>
+  <ul class="newstop" id="tab_1">
+		<li><a href="bbs/showtopic.asp?id=29411" target="_blank" title="要查看、添加、更改或删除表中的数据，用查询和窗体哪个更适合？">要查看、添加、更改或删...</a>  <span>(05-28 16:58)</span></li>
+		<li><a href="bbs/showtopic.asp?id=29410" target="_blank" title="弹出对话话">弹出对话话</a>  <span>(05-28 16:48)</span></li>
+		<li><a href="bbs/showtopic.asp?id=29408" target="_blank" title="求各位大神看看这个IIF表达式">求各位大神看看这个II...</a>  <span>(05-28 16:24)</span></li>
+		<li><a href="bbs/showtopic.asp?id=29407" target="_blank" title="更新后事件 >>> 窗体输入">更新后事件 >>> 窗...</a>  <span>(05-28 14:37)</span></li>
+		<li><a href="bbs/showtopic.asp?id=29406" target="_blank" title="写一个计数查询，总出错，请高手指教">写一个计数查询，总出错...</a>  <span>(05-28 11:01)</span></li>
+		<li><a href="bbs/showtopic.asp?id=29405" target="_blank" title="如何让报表合计计算出来的数据">如何让报表合计计算出来...</a>  <span>(05-28 08:55)</span></li>
+		<li><a href="bbs/showtopic.asp?id=29404" target="_blank" title="查询或报表中显示空值的问题。有图求真相">查询或报表中显示空值的...</a>  <span>(05-27 20:39)</span></li>
+		<li><a href="bbs/showtopic.asp?id=29403" target="_blank" title="ACCESS交叉表或者SQL怎么实现这样的行转列呢？">ACCESS交叉表或者...</a>  <span>(05-27 18:53)</span></li>
+		<li><a href="bbs/showtopic.asp?id=29402" target="_blank" title="如何在窗体中添加附件按钮并将附件保存到对应的表中">如何在窗体中添加附件按...</a>  <span>(05-27 17:10)</span></li>
+		<li><a href="bbs/showtopic.asp?id=29401" target="_blank" title="报销管理系统平台的登陆界面可否跳过不显示">报销管理系统平台的登陆...</a>  <span>(05-26 22:12)</span></li>
+	</ul>
+  </div>
+   <div class="ar_right" style="width:285px;height:112px;margin-bottom:5px;">
+  		<img src="images/weixin.jpg" border="0"  />
+  </div>
+  <div class="ar_right">
+		<h2 class="h2-blue"><font class="title_left cYellow">学习心得</font></h2>
+		<ul class="newstop">
+		<li><a href="article-show.asp?id=17245" target="_blank" title="《离退休信息管理系统》自学Access快速开发平台为本部门开发的管理软件">《离退休信息管理系统》自学Access...</a></li><li><a href="article-show.asp?id=17165" target="_blank" title="《IT系统集成公司技术部管理软件》我的Access开发心得">《IT系统集成公司技术部管理软件》我的...</a></li><li><a href="article-show.asp?id=17164" target="_blank" title="《学生宿舍管理平台》我的第一个软件开发心得及开发的Access源码分享">《学生宿舍管理平台》我的第一个软件开发...</a></li><li><a href="article-show.asp?id=17149" target="_blank" title="《调试数据管理系统》用数据管理生产--记我的Access开发经历">《调试数据管理系统》用数据管理生产--...</a></li><li><a href="article-show.asp?id=17134" target="_blank" title="《中医处方管理系统》Access开发历程">《中医处方管理系统》Access开发历...</a></li><li><a href="article-show.asp?id=17102" target="_blank" title="《定制室内门企业ERP系统》Access前端+SQL SqlServer后端模式开发学习心得">《定制室内门企业ERP系统》Acces...</a></li><li><a href="article-show.asp?id=17064" target="_blank" title="《天津津山汉物流信息管理系统2.0》Access开发心得">《天津津山汉物流信息管理系统2.0》A...</a></li><li><a href="article-show.asp?id=17024" target="_blank" title="《变更管理系统》Access学习之路">《变更管理系统》Access学习之路</a></li><li><a href="article-show.asp?id=16564" target="_blank" title="《中煤洗选》Access信息化管理系统建设之光明航线">《中煤洗选》Access信息化管理系统...</a></li><li><a href="article-show.asp?id=16452" target="_blank" title="《设备管理系统》重新开发我的管理软件一点心得分享">《设备管理系统》重新开发我的管理软件一...</a></li>
+	</ul>
+</div>
+			<div style="padding:10px auto;">
+			<a href="https://m.qlchat.com/wechat/page/live/840000166145996" target="_blank">
+               <img src="ads/freestudy.gif" style="border:0;"  />
+            </a>
+		</div>
+
+    <div class="ar_right">
+		<h2 class="h2-blue"><font class="title_left cYellow">最新文章</font></h2>
+  <ul class="newstop">
+		<li><a href="article-show.asp?id=17266" target="_blank" title="企业版升迁注意事项汇总">企业版升迁注意事项汇总</a><span>(05.28)</span></li>
+		<li><a href="article-show.asp?id=17265" target="_blank" title="sql链接表链接表刷新函数">sql链接表链接表刷新函数</a><span>(05.27)</span></li>
+		<li><a href="article-show.asp?id=17264" target="_blank" title="【Access Eval函数示例】Eval函数将文本型数字转换成数值型数字进行计算的示例">【Access Eval函数示例】...</a><span>(05.26)</span></li>
+		<li><a href="article-show.asp?id=17263" target="_blank" title="组合框无法使用">组合框无法使用</a><span>(05.24)</span></li>
+		<li><a href="article-show.asp?id=17262" target="_blank" title="MSSQL获取昨天，本周，本月。。。">MSSQL获取昨天，本周，本月。。...</a><span>(05.23)</span></li>
+		<li><a href="article-show.asp?id=17261" target="_blank" title="“525爱自己”知识福利日"style="color:#FF0000">“525爱自己”知识福利日</a><span>(05.22)</span></li>
+		<li><a href="article-show.asp?id=17260" target="_blank" title="【Access年度统计示例】按年度合计,用年度统计子窗体数据记录,根据年份汇总子窗体明细数据的示例">【Access年度统计示例】按年度...</a><span>(05.22)</span></li>
+		<li><a href="article-show.asp?id=17259" target="_blank" title="新增或打开编辑窗口，窗口显示空白">新增或打开编辑窗口，窗口显示空白</a><span>(05.21)</span></li>
+		<li><a href="article-show.asp?id=17258" target="_blank" title="平台模糊搜索加入DISTINCT示例">平台模糊搜索加入DISTINCT示...</a><span>(05.21)</span></li>
+		<li><a href="article-show.asp?id=17257" target="_blank" title="无法新增、无法修改、无法删除的问题">无法新增、无法修改、无法删除的问题</a><span>(05.20)</span></li>
+	</ul>
+  </div>
+<div class="ar_right"><script language="javascript" src="ads/left_banner.js"></script></div>
+
+	</div>
+	
+	<div class="clear"></div>
+	<!-- 页面右侧结束 -->
+</div>
+<!-- 网页主体结束 -->
+
+<!-- 页脚 -->
+
+<div id="aboutus"><a href="AboutUs.asp">关于我们</a> | <a href="clause.asp">服务条款</a> | <a href="Contribution.asp">在线投稿</a> | <a href="FriendLink.asp">友情链接</a> | <a href="bbs_rank.asp">网站统计</a>  | <a href="sitehelp.asp">网站帮助</a>     
+</div>
+<div id="footer" style="text-align:center">
+Access软件网 版权所有 CopyRight 2006-2018 <br /> 
+      <a href="http://www.umvsoft.com" target="_blank">上海盟威软件有限公司</a> 提供支持 本站特聘法律顾问: <strong>李慧</strong> 律师 <br />
+      沪ICP备12024966号
+      
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?bc63bfbdbd518a7ce7e1f4c4b46aab84";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+

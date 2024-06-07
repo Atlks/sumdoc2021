@@ -1,0 +1,40 @@
+atitit. 通用接口调用方法与数据模型
+				
+method1("param1");
+method2(param2);				
+
+类别继承层次
+
+STATEMENTS （语句）
+--ExpressionStatement （表达式语句，除此之外，还有变量定义语句，if条件选择语句，循环语句等）
+-------MethodInvocation （方法）
+------------MethodInvocation .NAME(MethodInvocation .ARGUMENTS )		
+
+常用语句的类型
+语句的类型	范例
+
+	
+
+VariableDeclarationStatement  变量定义语句表达式语句	int param2 = 0;
+ExpressionStatement 表达式语句	method2(param2);			
+
+IfStatement  if条件选择语句		if(1<2)
+			System.out.println("");
+ForStatement]循环语句	for(int i=0;i<100;i++)
+		{
+			System.out.println("cc");
+		}
+
+	
+
+
+		
+				
+				
+				
+				
+				
+
+
+
+

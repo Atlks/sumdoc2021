@@ -1,0 +1,32 @@
+atitit.跑号器 accscanner的设计 ---架构设计
+
+11
+11
+11
+11
+1
+vod2..
+public class ZipXCsv2 extends FileMultilineTask implements ITaskX  {
+
+
+任务管理器
+
+ */
+public interface ITaskX {
+	
+	public Object start(Object para) throws isIngEx ;
+	public Object pause(Object para);
+	public Object resume(Object para);
+	public Object stop(Object para);
+//	public Object  run()
+
+}
+
+console日志实现器
+	ConsoleBox msgboxC;
+
+accScannerBase
+LineScanner
+
+
+

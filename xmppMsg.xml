@@ -1,0 +1,3 @@
+<message from="fromUser@xxx.com" to='toUser@longbourn.lit/study' type='groupchat'>
+<body>bodytxt</body>
+</message>

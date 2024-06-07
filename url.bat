@@ -1,0 +1,1 @@
+java.exe -cp  %~dp0classes;%~dp0lib/*;%~dp0BOOT-INF\classes\WEB-INF\classes;%~dp0BOOT-INF\classes\WEB-INF\lib\*;D:\webapi\BOOT-INF\classes\WEB-INF\lib\*;C:\Users\Beepbeep\eclipse-workspace\arifa\target\classes;   FeignTest

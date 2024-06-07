@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="Strophe.js连接XMPP服务器Openfire、Tigase实现Web私聊、群聊(MUC)" />
+    <meta property="og:description" content="Strophe.js连接XMPP服务器Openfire、Tigase实现Web私聊、群聊(MUC)" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Strophe.js连接XMPP服务器Openfire、Tigase实现Web私聊、群聊(MUC) - 孙首富 - 开发者的网上家园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=dktCmaTYc_s0a4EnvC6tuH5wYElIJN_131iOybZOKro" />
+    <link id="MainCss" rel="stylesheet" href="/skins/coffee/bundle-coffee.min.css?v=F9ODK0b_BexrGFuzwObB8A2Gx3VnPgTALBeh3BNdKdg" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/coffee/bundle-coffee-mobile.min.css?v=_A34W8fnMJT0tcRq18x5CRz6GYA4gZvedLXGAkdf2Ms" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/sunshq/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/sunshq/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/sunshq/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 186490;
+        var currentBlogApp = 'sunshq';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'coffee';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2015-01-15 05:32';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=quLP6V96NCUwrp9e9p4Tc3ZzspjwpbJyGVOAQHoms5M"></script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    <div id="top_nav" class="navbar">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding">
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a>
+                </li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signin/?returnUrl=https://www.cnblogs.com/">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/sunshq/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/sunshq/">togoog</a>
+</h1>
+<h2>
+天之道，损有余而补不足
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/sunshq/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%AD%99%E9%A6%96%E5%AF%8C">
+联系</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/sunshq/rss/">
+订阅</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/sunshq/rss/">
+    <img src="/skins/coffee/images/xml.gif" alt="订阅" />
+</a></li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<!--done-->
+随笔- 
+277&nbsp;
+文章- 
+0&nbsp;
+评论- 
+34&nbsp;
+
+
+
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class = "postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/sunshq/p/4226855.html">
+    <span>Strophe.js连接XMPP服务器Openfire、Tigase实现Web私聊、群聊(MUC)</span>
+    
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			
+    <div id="cnblogs_post_description" style="display: none">
+        Strophe.js连接XMPP服务器Openfire、Tigase实现Web私聊、群聊(MUC)
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p>XMPP（Extensible Messaging and Presence Protocol）是一种网络即时通讯协议，它基于XML，具有很强的扩展性，被广泛使用在即时通讯软件、网络游戏聊天、Web聊天及Web消息推送、移动设备的消息推送等场景，例如Google的GTalk、《英雄联盟LOL》游戏聊天模块。</p>
+<p>由于在Web浏览器上的JavaScript不能直接处理TCP协议，所以XMPP服务器通常会提供BOSH（Bidirectional-streams Over Synchronous HTTP）接口，通过HTTP长轮训（long-polling）可以实现Web浏览器即时聊天。Strophe.js是一个通过BOSH连接Web浏览器和XMPP服务器的工具库。</p>
+<p><strong>XMPP协议简介：<br></strong></p>
+<p>XMPP服务器和客户端之间，是通过XML节（XML Stanza）来进行通讯。其中有三种非常重要的XML Stanza类型：&lt;message&gt;、&lt;presence&gt;、&lt;iq&gt;。</p>
+<p><strong>&lt;message&gt;：</strong></p>
+<p>聊天消息的发送和接收就是通过message节来实现。例如xxg1@host发送一条信息"你好"给xxg2@host，xxg1@host客户端会将下面的这段XML发送到XMPP服务器，服务器再推送给xxg2@host客户端。其中&lt;message&gt;的from属性是发送者，to属性是接收者，&lt;body&gt;子元素的内容就是聊天信息。</p>
+<div class="cnblogs_code">
+<pre>&lt;message from="xxg1@host" to="xxg2@host" type="chat"&gt;
+    &lt;body&gt;你好&lt;/body&gt;
+&lt;/message&gt;</pre>
+</div>
+<p><strong>&lt;presence&gt;：</strong></p>
+<p>可用于表明用户的状态，例如用户状态改变成“Do not disturb”（“请勿打扰”），会向服务器发送：</p>
+<div class="cnblogs_code">
+<pre>&lt;presence from="xxg@host"&gt;
+    &lt;status&gt;Do not disturb&lt;/status&gt;
+    &lt;priority&gt;0&lt;/priority&gt;
+    &lt;show&gt;dnd&lt;/show&gt;
+&lt;/presence&gt;</pre>
+</div>
+<p><strong>&lt;iq&gt;：</strong></p>
+<p>iq即Info/Query，采用“请求-响应”机制，类似于HTTP的机制。下面的例子是客户端通过&lt;iq&gt;请求获取联系人，XMPP服务器将结果返回：</p>
+<p>客户端请求获取联系人：</p>
+<div class="cnblogs_code">
+<pre>&lt;iq from='xxg@host' id='bv1bs71f' type='get'&gt;
+    &lt;query xmlns='jabber:iq:roster'/&gt;
+&lt;/iq&gt;</pre>
+</div>
+<p>服务器结果返回：</p>
+<div class="cnblogs_code">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>&lt;iq to='xxg@host' id='bv1bs71f' type='result'&gt;
+    &lt;query xmlns='jabber:iq:roster'&gt;
+        &lt;item jid='xxg2@host'/&gt;
+        &lt;item jid='xxg3@host'/&gt;
+    &lt;/query&gt;
+&lt;/iq&gt;</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+<p><strong>搭建XMPP服务器：<br></strong></p>
+<p>在实现Web浏览器聊天之前，首先要搭建一个XMPP服务器。例如Openfire、Tigase、Ejabberd是常用的XMPP服务器。其中Openfire、Tigase是基于Java实现，Ejabberd是Erlang实现。虽然实现的语言不同，但是都遵循XMPP协议，所以使用其中任意一个XMPP服务器即可。</p>
+<p>下面以Openfire和Tigase为例。</p>
+<p>Openfire可以自动化搭建很方便，本文不再介绍。Tigase的搭建可以参考我的另一篇博文：<a href="http://blog.csdn.net/xiao__gui/article/details/40891667" target="_blank">Linux搭建XMPP服务器Tigase（Spark客户端测试）</a>。</p>
+<p>XMPP服务器通常会实现<a href="http://xmpp.org/extensions/xep-0124.html" target="_blank">BOSH扩展</a>，下面是Openfire和Tigase的BOSH默认URL：</p>
+<p>Openfire：http://host:7070/http-bind<br>Tigase：http://host:5280</p>
+<p>在使用Strophe.js的时候，需要使用对应的HTTP地址才能连接上XMPP服务器。</p>
+<p>如果使用Opnefire，还需要在管理后台配置一下：</p>
+<p><img src="https://images0.cnblogs.com/blog/665442/201501/140925122457304.jpg" alt=""></p>
+<p><strong>Strophe.js：</strong></p>
+<p>下载：<a href="http://strophe.im/strophejs/" target="_blank">http://strophe.im/strophejs/</a></p>
+<p><strong>实现Web私聊：</strong></p>
+<p>私聊比较简单，聊天信息是通过上面介绍的&lt;message&gt;来进行传递交换。例如接收到一条别人发来的聊天信息，即接收一个&lt;message&gt;元素，发送给别人一条聊天信息，即发送一个&lt;message&gt;元素。</p>
+<p>HTML：</p>
+<div class="cnblogs_code">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;script src='http://cdn.bootcss.com/jquery/1.9.1/jquery.min.js'&gt;&lt;/script&gt;
+    &lt;script src='http://cdn.bootcss.com/strophe.js/1.1.3/strophe.min.js'&gt;&lt;/script&gt;
+    &lt;script src='test.js'&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    JID：&lt;input type="text" id="input-jid"&gt;
+    &lt;br&gt;
+    密码：&lt;input type="password" id="input-pwd"&gt;
+    &lt;br&gt;
+    &lt;button id="btn-login"&gt;登录&lt;/button&gt;
+    &lt;div id="msg" style="height: 400px; width: 400px; overflow: scroll;"&gt;&lt;/div&gt;
+    联系人JID：
+    &lt;input type="text" id="input-contacts"&gt;
+    &lt;br&gt;
+    消息：
+    &lt;br&gt;
+    &lt;textarea id="input-msg" cols="30" rows="4"&gt;&lt;/textarea&gt;
+    &lt;br&gt;
+    &lt;button id="btn-send"&gt;发送&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+<p>JavaScript(test.js)：</p>
+<div class="cnblogs_code">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>// XMPP服务器BOSH地址
+var BOSH_SERVICE = 'http://host:5280';
+
+// XMPP连接
+var connection = null;
+
+// 当前状态是否连接
+var connected = false;
+
+// 当前登录的JID
+var jid = "";
+
+// 连接状态改变的事件
+function onConnect(status) {
+    console.log(status)
+    if (status == Strophe.Status.CONNFAIL) {
+        alert("连接失败！");
+    } else if (status == Strophe.Status.AUTHFAIL) {
+        alert("登录失败！");
+    } else if (status == Strophe.Status.DISCONNECTED) {
+        alert("连接断开！");
+        connected = false;
+    } else if (status == Strophe.Status.CONNECTED) {
+        alert("连接成功，可以开始聊天了！");
+        connected = true;
+        
+        // 当接收到&lt;message&gt;节，调用onMessage回调函数
+        connection.addHandler(onMessage, null, 'message', null, null, null);
+        
+        // 首先要发送一个&lt;presence&gt;给服务器（initial presence）
+        connection.send($pres().tree());
+    }
+}
+
+// 接收到&lt;message&gt;
+function onMessage(msg) {
+    
+    // 解析出&lt;message&gt;的from、type属性，以及body子元素
+    var from = msg.getAttribute('from');
+    var type = msg.getAttribute('type');
+    var elems = msg.getElementsByTagName('body');
+
+    if (type == "chat" &amp;&amp; elems.length &gt; 0) {
+        var body = elems[0];
+        $("#msg").append(from + ":&lt;br&gt;" + Strophe.getText(body) + "&lt;br&gt;")
+    }
+    return true;
+}
+
+$(document).ready(function() {
+
+    // 通过BOSH连接XMPP服务器
+    $('#btn-login').click(function() {
+        if(!connected) {
+            connection = new Strophe.Connection(BOSH_SERVICE);
+            connection.connect($("#input-jid").val(), $("#input-pwd").val(), onConnect);
+            jid = $("#input-jid").val();
+        }
+    });
+    
+    // 发送消息
+    $("#btn-send").click(function() {
+        if(connected) {
+            if($("#input-contacts").val() == '') {
+                alert("请输入联系人！");
+                return;
+            }
+
+            // 创建一个&lt;message&gt;元素并发送
+            var msg = $msg({
+                to: $("#input-contacts").val(), 
+                from: jid, 
+                type: 'chat'
+            }).c("body", null, $("#input-msg").val());
+            connection.send(msg.tree());
+
+            $("#msg").append(jid + ":&lt;br&gt;" + $("#input-msg").val() + "&lt;br&gt;");
+            $("#input-msg").val('');
+        } else {
+            alert("请先登录！");
+        }
+    });
+});</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+<p>修改JavaScript代码中的BOSH_SERVICE，用浏览器打开HTML文件，登录后即可聊天：</p>
+<p><img src="https://images0.cnblogs.com/blog/665442/201501/140927480118217.jpg" alt=""></p>
+<p><strong>实现Web群聊：<br></strong></p>
+<p>XMPP群聊通过XMPP协议的<a href="http://xmpp.org/extensions/xep-0045.html" target="_blank">MUC（Multi-User Chat）</a>扩展实现。</p>
+<p>Openfire默认支持MUC，但是Tigase服务器默认不支持MUC，需要在init.properties文件中加入以下粗体部分的配置项：</p>
+<p>config-type=--gen-config-def<br>--admins=admin@host<br>--virt-hosts = host<br>--debug=server<br>--user-db=mysql<br>--user-db-uri = jdbc:mysql://localhost:3306/tigasedb?user=root&amp;password=xxx<br><strong>--comp-name-1 = muc<br>--comp-class-1 = tigase.muc.MUCComponent<br>--external = muc.devel.tigase.org:muc-pass:connect:5270:devel.tigase.org:accept</strong></p>
+<p><strong>创建房间：</strong></p>
+<p>创建房间实际上可以写在代码中，但是本文为了方便，就使用XMPP客户端Spark或者其他工具来创建。</p>
+<p>首先使用Spark任意登录一个用户，下图是Spark创建房间的步骤：</p>
+<p><img src="https://images0.cnblogs.com/blog/665442/201501/140929137454724.jpg" alt=""></p>
+<p><img src="https://images0.cnblogs.com/blog/665442/201501/140929515891697.jpg" alt=""></p>
+<p>如果使用的是Tigase，默认创建的房间是加锁的，别的用户无法进入，需要对房间解锁。Spark进入房间后，点击下面的设置按钮，然后不用更改任何设置，直接更新即可解锁房间（虽然没有修改任何配置，但是更新时会发送一个&lt;iq&gt;给服务器，这个&lt;iq&gt;解锁了房间，参考<a href="http://xmpp.org/extensions/xep-0045.html#createroom-instant" target="_blank">http://xmpp.org/extensions/xep-0045.html#createroom-instant</a>）：</p>
+<p><img src="https://images0.cnblogs.com/blog/665442/201501/140930216364517.jpg" alt=""></p>
+<p>另外，如果使用Openfire可以直接使用管理后台来创建：</p>
+<p><img src="https://images0.cnblogs.com/blog/665442/201501/140931151832590.jpg" alt=""></p>
+<p><strong>加入房间：</strong></p>
+<p>房间创建好了之后，就有有对应的房间JID：</p>
+<p><img src="https://images0.cnblogs.com/blog/665442/201501/140931356517304.jpg" alt=""></p>
+<p>加入房间可以通过发送一个&lt;presence&gt;来实现（实际上如果房间不存在下面的这条&lt;presence&gt;也会创建房间，但是创建的房间默认加锁，还需要发送一条&lt;iq&gt;解锁，所以本文就直接用Spark创建房间）：</p>
+<div class="cnblogs_code">
+<pre>&lt;presence from='xxg@host' to='xxgroom@muc.host/xxg'&gt;
+    &lt;x xmlns='http://jabber.org/protocol/muc'/&gt;
+&lt;/presence&gt;</pre>
+</div>
+<p>属性to='xxgroom@muc.host/xxg'中，xxgroom@muc.host表示房间JID，xxg表示在房间的昵称。</p>
+<p><strong>聊天：</strong></p>
+<p>和私聊一样，群聊也是通过&lt;message&gt;来实现，不同的是&lt;message&gt;的type属性，私聊是"chat"，而群聊是"groupchat"，另外，to属性即为房间JID，这样一条聊天消息就会发送给房间中的所有人。</p>
+<div class="cnblogs_code">
+<pre>&lt;message from='xxg@host' to='myroom@muc.host' type='groupchat'&gt;
+  &lt;body&gt;大家好！&lt;/body&gt;
+&lt;/message&gt;</pre>
+</div>
+<p><strong>实现：</strong></p>
+<p>HTML：</p>
+<div class="cnblogs_code">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;script src='http://cdn.bootcss.com/jquery/1.9.1/jquery.min.js'&gt;&lt;/script&gt;
+    &lt;script src='http://cdn.bootcss.com/strophe.js/1.1.3/strophe.min.js'&gt;&lt;/script&gt;
+    &lt;script src='test2.js'&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    JID：&lt;input type="text" id="input-jid"&gt;
+    &lt;br&gt;
+    密码：&lt;input type="password" id="input-pwd"&gt;
+    &lt;br&gt;
+    &lt;button id="btn-login"&gt;登录&lt;/button&gt;
+    &lt;div id="msg" style="height: 400px; width: 400px; overflow: scroll;"&gt;&lt;/div&gt;
+    &lt;br&gt;
+    消息：
+    &lt;br&gt;
+    &lt;textarea id="input-msg" cols="30" rows="4"&gt;&lt;/textarea&gt;
+    &lt;br&gt;
+    &lt;button id="btn-send"&gt;发送&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+<p>JavaScript(test2.js)：</p>
+<div class="cnblogs_code">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>// XMPP服务器BOSH地址
+var BOSH_SERVICE = 'http://host:5280';
+
+// 房间JID
+var ROOM_JID = 'xxgroom@muc.host';
+
+// XMPP连接
+var connection = null;
+
+// 当前状态是否连接
+var connected = false;
+
+// 当前登录的JID
+var jid = "";
+
+// 连接状态改变的事件
+function onConnect(status) {
+    if (status == Strophe.Status.CONNFAIL) {
+        alert("连接失败！");
+    } else if (status == Strophe.Status.AUTHFAIL) {
+        alert("登录失败！");
+    } else if (status == Strophe.Status.DISCONNECTED) {
+        alert("连接断开！");
+        connected = false;
+    } else if (status == Strophe.Status.CONNECTED) {
+        alert("连接成功，可以开始聊天了！");
+        connected = true;
+        
+        // 当接收到&lt;message&gt;节，调用onMessage回调函数
+        connection.addHandler(onMessage, null, 'message', null, null, null);
+        
+        // 首先要发送一个&lt;presence&gt;给服务器（initial presence）
+        connection.send($pres().tree());
+
+        // 发送&lt;presence&gt;元素，加入房间
+        connection.send($pres({
+            from: jid,
+            to: ROOM_JID + "/" + jid.substring(0,jid.indexOf("@"))
+        }).c('x',{xmlns: 'http://jabber.org/protocol/muc'}).tree());
+    }
+}
+
+// 接收到&lt;message&gt;
+function onMessage(msg) {
+    
+    console.log(msg);
+    // 解析出&lt;message&gt;的from、type属性，以及body子元素
+    var from = msg.getAttribute('from');
+    var type = msg.getAttribute('type');
+    var elems = msg.getElementsByTagName('body');
+
+    if (type == "groupchat" &amp;&amp; elems.length &gt; 0) {
+        var body = elems[0];
+        $("#msg").append(from.substring(from.indexOf('/') + 1) + ":&lt;br&gt;" + Strophe.getText(body) + "&lt;br&gt;")
+    }
+    return true;
+}
+
+$(document).ready(function() {
+
+    // 通过BOSH连接XMPP服务器
+    $('#btn-login').click(function() {
+        if(!connected) {
+            connection = new Strophe.Connection(BOSH_SERVICE);
+            connection.connect($("#input-jid").val(), $("#input-pwd").val(), onConnect);
+            jid = $("#input-jid").val();
+        }
+    });
+    
+    // 发送消息
+    $("#btn-send").click(function() {
+        if(connected) {
+
+            // 创建一个&lt;message&gt;元素并发送
+            var msg = $msg({
+                to: ROOM_JID, 
+                from: jid, 
+                type: 'groupchat'
+            }).c("body", null, $("#input-msg").val());
+            connection.send(msg.tree());
+
+            $("#input-msg").val('');
+        } else {
+            alert("请先登录！");
+        }
+    });
+});</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+<p>创建好房间，修改JavaScript代码中的BOSH_SERVICE和ROOM_JID，用浏览器打开HTML文件，登录后即可群聊：</p>
+<p><img src="https://images0.cnblogs.com/blog/665442/201501/140933144334559.jpg" alt=""></p>
+<p>另外，Strophe.js还有一个专门的MUC插件，有兴趣的同学可以自己研究下：<a href="https://github.com/strophe/strophejs-plugins/tree/master/muc" target="_blank">https://github.com/strophe/strophejs-plugins/tree/master/muc</a>。</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2015-01-15 17:32</span>&nbsp;
+<a href="https://www.cnblogs.com/sunshq/">孙首富</a>&nbsp;
+阅读(<span id="post_view_count">1005</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=4226855" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(4226855);return false;">收藏</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 186490, cb_blogApp = 'sunshq', cb_blogUserGuid = 'a50899f4-8dbf-de11-ba8f-001cf0cd104b';
+    var cb_entryId = 4226855, cb_entryCreatedDate = '2015-01-15 17:32', cb_postType = 1;
+    loadViewCount(cb_entryId);
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverT2();
+        deliverC1C2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div></div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<DIV id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</DIV>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 孙首富
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?39b794a97f47c65b6b2e4e1741dcba38";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</body>
+</html>

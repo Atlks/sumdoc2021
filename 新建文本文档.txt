@@ -1,0 +1,7 @@
+D:\ffmpegbin\ffmpeg.exe -i "D:\sa mau koi.mp4" -f mp3 -vn  "sa mau koi.mp3"
+D:\ffmpegbin\ffmpeg.exe -i "D:\something just like this.mp4" -f mp3 -vn  "something just like this.mp3"
+
+D:\ffmpegbin\ffmpeg.exe -i "D:\yaosh nsh dj n hwi ngain m.mp4" -f mp3 -vn  "yaosh nsh dj n hwi ngain m.mp3"
+
+
+

@@ -1,0 +1,58 @@
+function getQueryString(name) {
+    //cns name is bug..cant ok..
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
+
+
+function getQueryVar(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+}
+
+
+function  get_sync(url,func)
+{
+    $.ajaxSettings.async = false;
+    $.get(url, function (data) {
+
+        var index_data_start = data.indexOf('-----attilax---');
+
+        var dataStr = data.substr(index_data_start + 15);
+        console.log('dataStr:' + dataStr);
+        func(dataStr)
+    });
+    $.ajaxSettings.async = true;
+}
+
+/**
+ *
+ * @type {boolean}
+
+ $.ajaxSettings.async = false;
+ $.get("/search/listSearchRst.php?vid=", function (data) {
+
+                    var index_data_start = data.indexOf('-----attilax---');
+
+                    var dataStr = data.substr(index_data_start + 15);
+                    console.log('dataStr:' + dataStr);
+                    a = dataStr.split(",")
+                    for ($idx88 of a) {
+                        s = `<a href="/index.php/vod/search/wd/$idx88.html"></a>`
+                        document.writeln(s)
+                    }
+                    //    alert( "ok" );
+                    //  window.location="/pinlun/recomm.html?vid="+vid;
+                });
+ $.ajaxSettings.async = true;
+ */

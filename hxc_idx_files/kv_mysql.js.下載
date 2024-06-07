@@ -1,0 +1,106 @@
+/**
+
+ 
+首页:美女 黑人 泡妞 国语 对白 美女,
+精选系列：精选 系列,
+国产自制：美女  教师  医生  制服,
+中文字幕： 中文 字幕,
+av无码:av 无码,
+av剧情: av  剧情,
+网红主播: 网红  主播,
+欧美情色: 欧美 情色 色情,
+三级伦理: 三级 色情,
+成人动漫: 成人 动漫,
+
+ */
+
+// fun 分离的原则，，dom api，，ajax  documetn等对象。。
+function showInPage(cate, catestr, f) {
+    var s = `
+
+    首页:美女 黑人 泡妞;
+    国产自制:自拍  教师;`;
+    var a = catestr.split(',');
+    for (v99 of a) {
+        try {
+            a99 = v99.split("\n");
+            for (v of a99) {
+                try {
+                    console.log('split by fenhao item:' + v)
+                    var a2 = v.split(":");
+                    cate1 = a2[0].trim();
+                    console.log('cate1:' + cate1)
+                    if (cate1 != cate)
+                        continue;
+                    cates = a2[1].trim();
+                    a3 = cates.split(" ");
+                    for (v1 of a3) {
+                        v1 = v1.trim();
+                        if (v1.length == 0)
+                            continue;
+                        try {
+
+                            link = `<a href="/index.php/vod/search/wd/${v1}.html">${v1}</a>`;
+                            //   document.writeln(link)
+                            f(link);
+                        } catch (e2) {
+
+                        }
+
+                    }
+                } catch (e) {
+
+                }
+
+            }
+            //for end  a99
+        } catch (e4) {
+
+        }
+
+
+    }
+    // fore een 
+}
+
+var s = `
+
+首页:美女 黑人 泡妞;
+国产自制:自拍  教师;`;
+//showInPage("首页",s,(tag)=>console.log(tag))
+
+function get_kv_sync(k, e) {
+    $.ajaxSettings.async = false;
+    $.get("/hot_tag/get.php?k=" + k, function(data) {
+
+        var index_data_start = data.indexOf('-----attilax---');
+
+        var dataStr = data.substr(index_data_start + 15);
+        e(dataStr)
+    });
+    $.ajaxSettings.async = true;
+}
+
+function get_kv_async(k, e) {
+    $.get("/hot_tag/get.php?k=" + k, function(data) {
+
+        var index_data_start = data.indexOf('-----attilax---');
+
+        var dataStr = data.substr(index_data_start + 15);
+        e(dataStr)
+    });
+}
+
+
+console.log(1)
+
+function set_kv_async(k, v, e) {
+    $.get("/hot_tag/set.php?k=hottag&v=" + $("#v_txtbox").val(), function(data) {
+
+        var index_data_start = data.indexOf('-----attilax---');
+
+        var dataStr = data.substr(index_data_start + 15);
+        console.log("exe rzt:" + dataStr)
+        e(dataStr)
+    });
+}

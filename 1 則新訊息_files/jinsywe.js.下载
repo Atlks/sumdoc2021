@@ -1,0 +1,221 @@
+console.log("--------------load jinsywe fav blok js...")
+
+
+function list78(typeid, targetDivName, lmt) {
+    console.log("--------------vue ini....")
+    Vue.use(VueResource);   //这个一定要加上，指的是调用vue-resource.js
+    var example1 = new Vue({
+        el: '#' + targetDivName,
+        data: {
+            items: [
+                {pinlun: 'Foo', time: '2222-22-22', pinlun: 'xxxxxxxxxxx', user: 'attt'},
+                {pinlun: 'Bar'}
+            ]
+        },
+
+        //   host_app +
+        created: function () { //created方法，页面初始调用
+
+            var url = "/rpt/vodList_idxcate.php?typeid=" + typeid + "&lmt=" + lmt+"&rdm="+Math.random();
+
+            this.$http.get(url).then(function (data) {  //ajax请求封装
+                console.log(url);
+                var index_data_start = data.bodyText.indexOf('-----attilax---');
+
+                var true_data = data.bodyText.substr(index_data_start + 15);
+                //     var items = JSON.parse(data);
+                console.log('truedata:'+true_data)
+                //我的json数据参考下面
+                this.items = JSON.parse(true_data);
+            }, function (response) {   //返回失败方法调用，暂不处理
+                console.info(response);
+            })
+        }
+
+
+    });   //end vue
+}
+
+jQuery(document).ready(function () {
+
+  list78(5, "syesi", 4);
+    list78(35, "targetDiv_jinsywe", 12);
+    list78(1, "targetDiv_gwatse", 12);
+
+
+
+    list78(34, "targetDiv_jonwenzm", 12);
+    list78(3, "targetDiv_avjyvcin", 12);
+    //   jonwenzm();avjyvcin();
+
+    list78(4, "avuma", 12);
+    list78(2, "vohonjubo", 12);
+    list78(7, "omecinsa", 12);
+    list78(31, "sejlonli", 12);
+    list78(32, "chenrendonme", 12);
+
+    window.setInterval(() => {
+        $("#chenrenTit").html("成人动漫");
+    }, 50)
+
+
+});
+
+
+//  35, "targetDiv_jinsywe“
+function jinsywe() {
+    console.log("--------------vue ini....")
+    Vue.use(VueResource);   //这个一定要加上，指的是调用vue-resource.js
+    var example1 = new Vue({
+        el: '#targetDiv_jinsywe',
+        data: {
+            items: [
+                {pinlun: 'Foo', time: '2222-22-22', pinlun: 'xxxxxxxxxxx', user: 'attt'},
+                {pinlun: 'Bar'}
+            ]
+        },
+
+        //   host_app +
+        created: function () { //created方法，页面初始调用
+            var url = "/rpt/vodList_Jinsywe.php?" + '';
+            this.$http.get(url).then(function (data) {  //ajax请求封装
+                var index_data_start = data.bodyText.indexOf('-----attilax---');
+
+                var true_data = data.bodyText.substr(index_data_start + 15);
+                //     var items = JSON.parse(data);
+                //我的json数据参考下面
+                this.items = JSON.parse(true_data);
+            }, function (response) {   //返回失败方法调用，暂不处理
+                console.info(response);
+            })
+        }
+
+
+    });   //end vue
+}
+
+//  1,targetDiv_gwatse
+function gwatse() {
+    console.log("--------------vue ini....")
+    Vue.use(VueResource);   //这个一定要加上，指的是调用vue-resource.js
+    var example1 = new Vue({
+        el: '#targetDiv_gwatse',
+        data: {
+            items: [
+                {pinlun: 'Foo', time: '2222-22-22', pinlun: 'xxxxxxxxxxx', user: 'attt'},
+                {pinlun: 'Bar'}
+            ]
+        },
+
+        //   host_app +
+        created: function () { //created方法，页面初始调用
+            var url = "/rpt/vodList_gwatse.php?typeid=1" + '';
+            this.$http.get(url).then(function (data) {  //ajax请求封装
+                var index_data_start = data.bodyText.indexOf('-----attilax---');
+
+                var true_data = data.bodyText.substr(index_data_start + 15);
+                //     var items = JSON.parse(data);
+                //我的json数据参考下面
+                this.items = JSON.parse(true_data);
+            }, function (response) {   //返回失败方法调用，暂不处理
+                console.info(response);
+            })
+        }
+
+
+    });   //end vue
+}
+
+
+function jonwenzm() {
+    console.log("--------------vue ini....")
+    Vue.use(VueResource);   //这个一定要加上，指的是调用vue-resource.js
+    var example1 = new Vue({
+        el: '#targetDiv_jonwenzm',
+        data: {
+            items: [
+                {pinlun: 'Foo', time: '2222-22-22', pinlun: 'xxxxxxxxxxx', user: 'attt'},
+                {pinlun: 'Bar'}
+            ]
+        },
+
+        //   host_app +
+        created: function () { //created方法，页面初始调用
+            var url = "/rpt/vodList_gwatse.php?typeid=34" + '';
+            this.$http.get(url).then(function (data) {  //ajax请求封装
+                var index_data_start = data.bodyText.indexOf('-----attilax---');
+
+                var true_data = data.bodyText.substr(index_data_start + 15);
+                //     var items = JSON.parse(data);
+                //我的json数据参考下面
+                this.items = JSON.parse(true_data);
+            }, function (response) {   //返回失败方法调用，暂不处理
+                console.info(response);
+            })
+        }
+
+
+    });   //end vue
+}
+
+function avjyvcin() {
+    console.log("--------------vue ini....")
+    Vue.use(VueResource);   //这个一定要加上，指的是调用vue-resource.js
+    var example1 = new Vue({
+        el: '#targetDiv_avjyvcin',
+        data: {
+            items: [
+                {pinlun: 'Foo', time: '2222-22-22', pinlun: 'xxxxxxxxxxx', user: 'attt'},
+                {pinlun: 'Bar'}
+            ]
+        },
+
+        //   host_app +
+        created: function () { //created方法，页面初始调用
+            var url = "/rpt/vodList_gwatse.php?typeid=3" + '';
+            this.$http.get(url).then(function (data) {  //ajax请求封装
+                var index_data_start = data.bodyText.indexOf('-----attilax---');
+
+                var true_data = data.bodyText.substr(index_data_start + 15);
+                //     var items = JSON.parse(data);
+                //我的json数据参考下面
+                this.items = JSON.parse(true_data);
+            }, function (response) {   //返回失败方法调用，暂不处理
+                console.info(response);
+            })
+        }
+
+
+    });   //end vue
+}
+
+function syesi() {
+    console.log("--------------vue ini....")
+    Vue.use(VueResource);   //这个一定要加上，指的是调用vue-resource.js
+    var example1 = new Vue({
+        el: '#syesi',
+        data: {
+            items: [
+                {pinlun: 'Foo', time: '2222-22-22', pinlun: 'xxxxxxxxxxx', user: 'attt'},
+                {pinlun: 'Bar'}
+            ]
+        },
+
+        //   host_app +
+        created: function () { //created方法，页面初始调用
+            var url = "/rpt/vodList_idxcate.php?typeid=5&lmt=4" + '';
+            this.$http.get(url).then(function (data) {  //ajax请求封装
+                var index_data_start = data.bodyText.indexOf('-----attilax---');
+
+                var true_data = data.bodyText.substr(index_data_start + 15);
+                //     var items = JSON.parse(data);
+                //我的json数据参考下面
+                this.items = JSON.parse(true_data);
+            }, function (response) {   //返回失败方法调用，暂不处理
+                console.info(response);
+            })
+        }
+
+
+    });   //end vue
+}

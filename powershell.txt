@@ -1,0 +1,4 @@
+Enter-PSSession -ComputerName <remoteIp or host> -Credential <username>
+
+
+Enter-PSSession -ComputerName 207.46.156.160 -Credential jun

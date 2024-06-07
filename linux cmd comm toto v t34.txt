@@ -1,0 +1,188 @@
+Atitit  服务器运维linux常用命令attilax总结.docx
+
+##################### nginx  
+######################### 查看日志   
+#################### fac server tomcat   11.93
+#############fac server tomcat   11.93  wecaht backed  publish
+#############fac server tomcat   11.93 admin 
+##################   压缩解压
+######### 备份mysql
+###########  用户维护
+##########其他
+
+./configure --prefix=/home/ec2-user/nginxdir  /home/ec2-user/nginxdir2
+./configure --prefix=/home/work/your nginx/nginx-port
+
+tail    ^H^H^H^H^H
+  # tail -f /usr/local/web-tomcat8/logs/catalina.out 
+  
+##################### nginx  
+  
+ /etc/nginx -s reload 
+ /tt/www/web-nginx1142/sbin/nginx -s reload 
+
+/usr/sbin/nginx -s reload     (36.serv)
+ usr/sbin/nginx -s reload 
+  
+  /opt/gitlab/service/nginx -s reload 
+  
+   /usr/share/nginx -s reload 
+   
+   
+ 
+ #################find
+ 
+  find / -name nginx.conf
+    find / -name nginx.conf
+   find / -name 	redis-server
+    find / -name  redis.conf
+   find / -name  rdb.dump
+
+  /
+     /etc/nginx/nginx.conf
+   
+######################### 查看日志   
+   
+ another win....   tail -f /usr/local/web-tomcat8/logs/catalina.out     
+   /usr/local/web-tomcat8/bin/startup.sh 
+  
+  
+
+  
+  
+  
+   another win....   tail -f /usr/local/admin-tomcat8/logs/catalina.out     
+  
+  ###############启动tomcat
+  
+   /usr/local/admin-tomcat8/bin/startup.sh 
+   
+   
+   
+   jenkins-tomcat8
+   
+     /usr/local/jenkins-tomcat8/bin/startup.sh 
+
+
+#################### fac server tomcat   11.93
+/tt/www/api-tomcat9/bin/startup.sh 
+/tt/www/admin-tomcat9/bin/startup.sh 
+ tail -f /tt/www/admin-tomcat9/logs/catalina.out     
+
+"C:\Program Files\Git\cmd\git.exe" clone git@www.chinesesr.com:group-tt-api/tt-api.git "H:\产品原型\tt-api33"
+"C:\Program Files\Git\bin\git.exe" clone git@www.chinesesr.com:group-tt-api/tt-api.git "H:\产品原型\tt-api35"
+
+
+git.exe clone --progress -v "git@www.chinesesr.com:group-tt-api/tt-api.git" "H:\产品原型\tt-api33"
+
+
+tar -cvjpf  /tt/ttApp339.tar /tt/app
+tar -cvjpf   /adminbek/admin329.tar /tt/www/admin-tomcat9/webapps/admin  
+
+
+tar -cvjpf  /tt/ttApp315.tar /tt/app
+
+　-z　　　　　　　　//使用gzip进行压缩/解压，一般使用.tar.gz后缀
+　-j　　　　　　　　//使用bzip2进行压缩/解压，一般使用.tar.bz2后缀
+
+tar -cvjpf  /tt/groupbuy325.tar  /tt/app/groupbuy
+
+
+
+mv /tt/www/admin-tomcat9/webapps/admin.war ../backup
+
+
+
+#############fac server tomcat   11.93  wecaht backed  publish
+ 
+
+cp /api.war /tt/www/api-tomcat9/webapps/api.war  
+
+cp  /tt/www/api-tomcat9/webapps/api.war    /tt/www/api-tomcat9/backup/api.war.41
+ cp  /tt/www/api-tomcat9/backup/api.war.320    /tt/www/api-tomcat9/webapps/api.war 
+  cp  /tt/www/api-tomcat9/backup/api.war.41    /tt/www/api-tomcat9/webapps/api.war 
+/tt/www/api-tomcat9/bin/startup.sh 
+ps -ef|grep tomcat
+ tail -f /tt/www/api-tomcat9/logs/catalina.out   
+/tt/www/api-tomcat9/bin/startup.sh 
+
+/tt/www/api-tomcat9/webapps/api.war
+
+#############fac server tomcat   11.93 admin 
+
+
+cp /tt/www/admin-tomcat9/webapps/admin.war   /tt/www/admin-tomcat9/backup/admin.war.42
+mv /tt/www/admin-tomcat9/webapps/admin.war   /tt/www/admin-tomcat9/backup/admin.war.320
+ps -ef|grep tomcat 
+kill 
+ tail -f /tt/www/admin-tomcat9/logs/catalina.out   
+/tt/www/admin-tomcat9/bin/startup.sh 
+/tt/www/api-tomcat9/bin/startup.sh 
+
+
+ls -R /tt/file_upload
+
+ls /tt/file_upload
+
+##################   压缩解压
+
+tar -cvjpf /tmp/prod3.tar /prod               (zip folder with foldername)
+tar -xvf   /tmp/prod3.tar -C   /tmp/mkdir2    (upzip with dolfername)
+
+cp  -r /prod/*   /tmp/mkdir2
+
+
+unzip -n /tt/www/api-tomcat9/webapps/api.war -d /tt/www/api-tomcat9/webapps/api
+
+tar -cvjpf  /tt/ttApp339.tar /tt/app
+tar -xvf  /tt/www/api-tomcat9/webapps/api.war
+
+unzip -n /tt/www/api-tomcat9/backup/tt-yxt-0.0.1-SNAPSHOT.war -d /tt/www/api-tomcat9/webapps/api
+
+
+
+######### 备份mysql
+D:\wamp\bin\mysql\mysql5.5.20\bin\mysqldump.exe -uroot -proot --set-charset=utf8 %dbname% --result-file=%sql_bakName%
+ 
+"C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqldump.exe" --routines --complete-insert --set-gtid-purged=off --skip-add-locks --skip-lock-tables --set-charset=utf8 -hrm-uf625e3dst83ioo15to.mysql.rds.aliyuncs.com -utang123 -ptt     tt_formal --result-file=G:\dbbek\tt_formal419a.sql
+
+
+
+
+###########  用户维护
+
+useradd -d /tt/app frt
+
+useradd -d /home/jc -m jc
+ 
+
+
+
+##########其他
+java -cp   /sqlbek/classes:/lib/*  com.attilax.wechatToto.ProdwechatMenuScript 
+ java -cp  /sqlbek/classes:/lib/* com.attilax.wechatToto.ProdMenuWrite  /0db_tmpTable/prodTotoYonsyeteo_menu2019-04-01.175713.json
+ 
+nohup java -cp  /redisJsDriver/WEB-INF/classes:/redisJsDriver/miniPrjjars/*:/redisJsDriver/tomcatlib/*   redisJsDriverPkg.redisJsDriver 8888 /redisJsDriver > /redisSvs.log 2>&1 &    
+nohup java -cp  /targetBookmark/classes:/lib/*    aOPtool.clrusrTomcatStart 5201  /redisJsDriver > /clrusrTomcatStart.log 2>&1 &  
+
+ java -cp  /srv/redisDriver/classes:/libs/*  redisJsDriverPkg.residCmdShellParser  
+
+nohup  java -cp  /targetBookmark/classes:/lib/*    aOPtool.clrusrTomcatStart 5201  /libs > /clrusr.log 2>&1 &  
+nohup  java -cp  /targetBookmark/classes:/lib/*    aOPtool.clrusrTomcatStart 5202  /libs > /clrusr.log 2>&1 &  
+nohup  java -cp  /targetBookmark/classes:/lib/*    aOPtool.clrusrTomcatStart 5206  /libs > /clrusr5204.log 2>&1 &  
+
+ http://47.100.12.36:8888/api_redis?param=-cfg /0db/redis_36.txt -get access_token
+ http://47.100.12.36:888/api_redis?param=-cfg /0db/redis_36.txt -get access_token
+ http://stoken.chinesesr.com/tokenapp/api_redis?param=-cfg /0db/redis_36.txt -get access_token
+ 
+ 
+ /0db_tmpTable/prodTotoYonsyeteo_menu111.json
+ 
+ pdm#1921@
+ 
+ scp root@172.19.162.236:/tt/www/admin-tomcat9/webapps/admin.war /tt/www/admin-tomcat9/webapps/
+  scp root@172.19.162.236:/tt/www/api-tomcat9/webapps/api.war /tt/www/api-tomcat9/webapps/
+  java -cp /lib/*:/targetBookmark/classes  aOPtool.cfgFileViewer    -get  /tt/www/api-tomcat9/webapps/api/WEB-INF/classes/application.yml,/tt/www/admin-tomcat9/webapps/admin/WEB-INF/classes/application.yml    
+  
+  
+   nohup  java -cp .:/sqlbek/classes:/sqlbek/miniPrjjars/*  aOPtool.sqlBekScrpt > /dbbekout.file 2>&1 &
